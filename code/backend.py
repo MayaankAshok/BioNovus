@@ -37,6 +37,30 @@ class Checker:
             inp = input()
             signup_method()
 
+    @staticmethod
+    def check_password_login(username,password,users_collection,login_method):
+        user = users_collection.find_one({'_id': username,'password':password})
+        if user:
+            clear_screen()
+            return
+        else:
+            print(f"{TextColors.RED}Incorrect password. Press Enter to continue{TextColors.END}")
+            inp = input()
+            clear_screen()
+            login_method()
+
+    @staticmethod
+    def check_uname_login(username, users_collection, signup_method):
+
+        user = users_collection.find_one({'_id': username})
+        if user:
+            return
+        else:
+            clear_screen()
+            print(f"{TextColors.RED}Username doesn't exist. Please signup.  Press Enter to continue.{TextColors.END}")
+            inp = input()
+            signup_method()
+
 class DataBase:
 
     def __init__(self):
@@ -72,7 +96,18 @@ class DataBase:
         main()
 
     def login(self):
-        pass
+        clear_screen()
+        u_name = input(f"{TextColors.BLUE}Enter Username: {TextColors.END}")
+        Checker.check_uname_login(u_name, self.users_collection, self.signup)
+
+        password = input(f"{TextColors.BLUE}Enter Password: {TextColors.END}")
+        Checker.check_password_login(u_name,password, self.users_collection,self.login)
+
+        print(f"{TextColors.GREEN}User logged in successfully.{TextColors.END}")
+        print()
+        print(f"{TextColors.YELLOW}Press enter to continue.{TextColors.END}")
+        inp = input()
+        main()
 
     def close(self):
         
