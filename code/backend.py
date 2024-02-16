@@ -50,16 +50,25 @@ class Checker:
             login_method()
 
     @staticmethod
-    def check_uname_login(username, users_collection, signup_method):
+    def check_uname_login(username, users_collection, signup_method, login_method):
 
         user = users_collection.find_one({'_id': username})
         if user:
             return
         else:
             clear_screen()
-            print(f"{TextColors.RED}Username doesn't exist. Please signup.  Press Enter to continue.{TextColors.END}")
+            print(f"{TextColors.RED}Username doesn't exist.{TextColors.END}")
+            print(f"{TextColors.YELLOW}1. SignUp{TextColors.END}")
+            print(f"{TextColors.YELLOW}2. Login{TextColors.END}")
+            choice = input(f"{TextColors.BLUE}Do you want to continue login or signup: {TextColors.END}")
+            print(f"{TextColors.BLUE}Press Enter to continue. {TextColors.END}")           
             inp = input()
-            signup_method()
+            if choice == '1':
+                signup_method()
+            elif choice == '2':
+                login_method()
+
+            
 
 class DataBase:
 
@@ -98,7 +107,7 @@ class DataBase:
     def login(self):
         clear_screen()
         u_name = input(f"{TextColors.BLUE}Enter Username: {TextColors.END}")
-        Checker.check_uname_login(u_name, self.users_collection, self.signup)
+        Checker.check_uname_login(u_name, self.users_collection, self.signup, self.login)
 
         password = input(f"{TextColors.BLUE}Enter Password: {TextColors.END}")
         Checker.check_password_login(u_name,password, self.users_collection, self.login)
