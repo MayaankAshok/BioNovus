@@ -5,29 +5,29 @@ from essentials import TextColors
 class Checker:
 
     @staticmethod
-    def check_uname_login(username, users_collection, login_method):
+    def check_uname_signup(username, users_collection, signup_method):
 
         user = users_collection.find_one({'_id': username})
         if user:
             clear_screen()
             print(f"{TextColors.RED}Username exists. Press Enter to continue.{TextColors.END}")
             inp = input()
-            login_method()
+            signup_method()
         else:
             return
         
     @staticmethod
-    def check_password_login(password, re_password, login_method):
+    def check_password_signup(password, re_password, signup_method):
 
         if password == re_password:
             return
         else:
             print(f"{TextColors.RED}Passwords do not match. Press Enter to continue.{TextColors.END}")
             inp = input()
-            login_method()
+            signup_method()
 
     @staticmethod
-    def check_age_login(age, login_method):
+    def check_age_signup(age, signup_method):
 
         try:
             age = int(age)
@@ -35,7 +35,7 @@ class Checker:
         except:
             print(f"{TextColors.RED}Age should be an integer. Press Enter to continue.{TextColors.END}")
             inp = input()
-            login_method()
+            signup_method()
 
 class DataBase:
 
@@ -48,14 +48,14 @@ class DataBase:
     def signup(self):
         clear_screen()
         u_name = input(f"{TextColors.BLUE}Enter Username: {TextColors.END}")
-        Checker.check_uname_login(u_name, self.users_collection, self.login)
+        Checker.check_uname_signup(u_name, self.users_collection, self.signup)
 
         password = input(f"{TextColors.BLUE}Enter Password: {TextColors.END}")
         re_password = input(f"{TextColors.BLUE}Re-enter Password: {TextColors.END}")
-        Checker.check_password_login(password, re_password, self.login)
+        Checker.check_password_signup(password, re_password, self.signup)
 
         age = input(f"{TextColors.BLUE}Enter your age (in years): {TextColors.END}")
-        Checker.check_age_login(age, self.login)
+        Checker.check_age_signup(age, self.signup)
 
         user_data = {
             '_id': u_name,
