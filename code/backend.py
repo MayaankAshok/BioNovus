@@ -68,7 +68,16 @@ class Checker:
             elif choice == '2':
                 login_method()
 
-            
+    @staticmethod
+    def check_uname_for_delete(username, users_collection):
+        user = users_collection.find_one({'_id': username})
+        if user:
+            return
+        else:
+            clear_screen()
+            print(f"{TextColors.RED}Username doesn't exist. Press enter to continue.{TextColors.END}")
+            inp = input()
+            main()
 
 class DataBase:
 
@@ -118,8 +127,21 @@ class DataBase:
         inp = input()
         main()
 
-    def close(self):
+    def delete_user(self):
+        clear_screen()
+        u_name = input(f"{TextColors.BLUE}Enter Username to be deleted: {TextColors.END}")
+        Checker.check_uname_for_delete(u_name, self.users_collection)
 
+        self.users_collection.delete_one({'_id': u_name})
+        clear_screen()
+        print(f"{TextColors.GREEN}User deleted from the database successfully. {TextColors.END}")
+        print()
+        print(f"{TextColors.YELLOW}Press enter to continue. {TextColors.END}")
+        inp = input()
+        main()
+        
+
+    def close(self):
         clear_screen()
         print(f"{TextColors.GREEN}Thank you for working with Bionovus! {TextColors.END}")
         print()
@@ -142,7 +164,7 @@ def main():
     elif choice == '2':
         database.login()
     elif choice == '3': 
-        pass
+        database.close()
     else:
         clear_screen()
         print(f"{TextColors.RED}Invalid Choice. Please enter a valid option.{TextColors.END}")
