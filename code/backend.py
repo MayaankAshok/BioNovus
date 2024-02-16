@@ -101,8 +101,8 @@ class DataBase:
         Checker.check_uname_login(u_name, self.users_collection, self.signup)
 
         password = input(f"{TextColors.BLUE}Enter Password: {TextColors.END}")
-        Checker.check_password_login(u_name,password, self.users_collection,self.login)
-
+        Checker.check_password_login(u_name,password, self.users_collection, self.login)
+        clear_screen()
         print(f"{TextColors.GREEN}User logged in successfully.{TextColors.END}")
         print()
         print(f"{TextColors.YELLOW}Press enter to continue.{TextColors.END}")
@@ -110,7 +110,7 @@ class DataBase:
         main()
 
     def close(self):
-        
+
         clear_screen()
         print(f"{TextColors.GREEN}Thank you for working with Bionovus! {TextColors.END}")
         print()
