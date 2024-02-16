@@ -97,8 +97,8 @@ def main():
         database.signup()
     elif choice == '2':
         database.login()
-    elif choice == '3':
-        database.close()
+    elif choice == '3': 
+        pass
     else:
         clear_screen()
         print(f"{TextColors.RED}Invalid Choice. Please enter a valid option.{TextColors.END}")
