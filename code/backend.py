@@ -42,7 +42,7 @@ class Checker:
             signup_method()
 
     @staticmethod
-    def check_password_login(username,password, users_collection, login_method):
+    def check_password_login(username, password, users_collection, login_method):
 
         user = users_collection.find_one({'_id': username, 'password':password})
         if user:
@@ -52,7 +52,8 @@ class Checker:
             print(f"{TextColors.RED}Incorrect password and username pair. Press Enter to continue.{TextColors.END}")
             inp = input()
             clear_screen()
-            login_method()
+            user = login_method()
+            return user
 
     @staticmethod
     def check_uname_login(username, users_collection, signup_method, login_method):
@@ -71,7 +72,8 @@ class Checker:
             if choice == '1':
                 signup_method()
             elif choice == '2':
-                login_method()
+                username = login_method()
+                return username
 
     @staticmethod
     def check_s_id(s_id, samples_collection, enter_sample_method, user_name):
@@ -105,6 +107,60 @@ class Checker:
             print(f"{TextColors.RED}Username doesn't exist. Press enter to continue.{TextColors.END}")
             inp = input()
             main()
+
+class Settings:
+
+    @staticmethod
+    def settings_operator():
+        pass
+
+    @staticmethod
+    def settings_reviewer():
+        pass
+
+    @staticmethod
+    def settings_admin(database):
+        clear_screen()
+        print(f"{TextColors.GREEN}Settings: {TextColors.END}")
+        print()
+        print(f"{TextColors.YELLOW}1. Sample Operations {TextColors.END}")
+        print(f"{TextColors.YELLOW}2. User operations {TextColors.END}")
+        print()
+        choice = input(f"{TextColors.BLUE}Select an option from above: {TextColors.END}")
+
+        if choice == '1':
+            print(TextColors.GREEN)
+            for sample in database.samples_collection.find():
+                print(sample)
+            print(TextColors.END)
+            sample_id = input(f"{TextColors.BLUE}Enter the _id of the sample you want to alter: {TextColors.END}")
+            print()
+            print(f"{TextColors.YELLOW}1. Delete Sample{TextColors.END}")
+            print(f"{TextColors.YELLOW}2. Alter Sample data{TextColors.END}")
+            print()
+            operation = input(f"{TextColors.BLUE}Select an option from above: {TextColors.END}")
+            
+            if operation == '1':
+                result = database.samples_collection.delete_one({"_id": sample_id})
+                if result:
+                    clear_screen()
+                    print(f"{TextColors.GREEN}Deletion Succesfull. {TextColors.END}")
+                    print()
+                    print(f"{TextColors.BLUE}Press Enter to return to landing page. {TextColors.END}")
+                    inp = input()
+                    return
+                else:
+                    clear_screen()
+                    print(f"{TextColors.END}Sample ID input is not present. {TextColors.END}")
+                    print()
+                    print(f"{TextColors.BLUE}Press Enter to return to settings page. {TextColors.END}")
+                    inp = input()
+                    Settings.settings_admin(database)
+            return
+        elif choice == '2':
+            pass
+        else:
+            pass
 
 class DataBase:
 
@@ -190,6 +246,17 @@ class DataBase:
         inp = input()
         main()
         
+    def logout(self):
+        clear_screen()
+        print(f"{TextColors.BLUE}Are you sure you want to logout? Enter 'y' to confirm and anything else to return to landing page.{TextColors.END}")
+        print()
+        decision = input()
+        decision = decision.lower()
+        if decision == 'y':
+            main()
+        else:
+            return
+
     def close(self):
         clear_screen()
         print(f"{TextColors.GREEN}Thank you for working with Bionovus! {TextColors.END}")
@@ -213,6 +280,7 @@ def main():
 
     elif choice == '2':
         user = database.login()
+
         while True:
             clear_screen()
             print(f"{TextColors.GREEN}Welcome {user['_id']}.{TextColors.END}")
@@ -228,10 +296,21 @@ def main():
                 continue
 
             elif choice == '2':
-                pass
+
+                if user['category'] == 'operator':
+                    Settings.settings_operator()
+
+                elif user['category'] == 'reviewer':
+                    Settings.settings_reviewer()
+
+                elif user['category'] == 'admin':
+                    Settings.settings_admin(database)
+
+                continue
 
             elif choice == '3':
-                pass
+                database.logout()
+                continue
 
             else:
                 print(f"{TextColors.RED}Invalid choice, press enter to return to landing page.{TextColors.END}")
@@ -239,6 +318,7 @@ def main():
                 continue
 
     elif choice == '3': 
+        exit()
         pass
 
     else:
