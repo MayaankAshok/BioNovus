@@ -1,6 +1,8 @@
-import pymongo
 from essentials import clear_screen
 from essentials import TextColors
+from flask_pymongo import PyMongo
+from flask_cors import CORS
+from flask import Flask, request, jsonify
 
 class Valid_Inputs:
 
@@ -106,7 +108,7 @@ class Checker:
             clear_screen()
             print(f"{TextColors.RED}Username doesn't exist. Press enter to continue.{TextColors.END}")
             inp = input()
-            main()
+            # main()
 
 class Settings:
 
@@ -164,38 +166,38 @@ class Settings:
 
 class DataBase:
 
-    def __init__(self):
-        self.client = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
-        self.db = self.client['bionuvus']
-        self.users_collection = self.db['users']
-        self.samples_collection = self.db['samples']
+    # def __init__(self):
+        # self.client = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
+        # self.db = self.client['bionuvus']
+        # self.users_collection = self.db['users']
+        # self.samples_collection = self.db['samples']
 
-    def signup(self):
-        clear_screen()
-        u_name = input(f"{TextColors.BLUE}Enter Username: {TextColors.END}")
-        u_name = u_name.lower()
-        Checker.check_uname_signup(u_name, self.users_collection, self.signup)
+    # def signup(self):
+        # clear_screen()
+        # u_name = input(f"{TextColors.BLUE}Enter Username: {TextColors.END}")
+        # u_name = u_name.lower()
+        # Checker.check_uname_signup(u_name, self.users_collection, self.signup)
 
-        password = input(f"{TextColors.BLUE}Enter Password: {TextColors.END}")
-        re_password = input(f"{TextColors.BLUE}Re-enter Password: {TextColors.END}")
-        Checker.check_password_signup(password, re_password, self.signup)
+        # password = input(f"{TextColors.BLUE}Enter Password: {TextColors.END}")
+        # re_password = input(f"{TextColors.BLUE}Re-enter Password: {TextColors.END}")
+        # Checker.check_password_signup(password, re_password, self.signup)
 
-        age = input(f"{TextColors.BLUE}Enter your age (in years): {TextColors.END}")
-        Checker.check_age_signup(age, self.signup)
+        # age = input(f"{TextColors.BLUE}Enter your age (in years): {TextColors.END}")
+        # Checker.check_age_signup(age, self.signup)
 
-        user_data = {
-            '_id': u_name,
-            'password': password,
-            'age': int(age),
-            'category': 'operator'
-        }
-        self.users_collection.insert_one(user_data)
-        clear_screen()
-        print(f"{TextColors.GREEN}User added to the database successfully.{TextColors.END}")
-        print()
-        print(f"{TextColors.YELLOW}Press enter to continue.{TextColors.END}")
-        inp = input()
-        main()
+        # user_data = {
+        #     '_id': u_name,
+        #     'password': password,
+        #     'age': int(age),
+        #     'category': 'operator'
+        # }
+        # self.users_collection.insert_one(user_data)
+        # clear_screen()
+        # print(f"{TextColors.GREEN}User added to the database successfully.{TextColors.END}")
+        # print()
+        # print(f"{TextColors.YELLOW}Press enter to continue.{TextColors.END}")
+        # inp = input()
+        # main()
 
     def login(self):
         clear_screen()
@@ -244,18 +246,18 @@ class DataBase:
         print()
         print(f"{TextColors.YELLOW}Press enter to continue. {TextColors.END}")
         inp = input()
-        main()
+        # main()
         
-    def logout(self):
-        clear_screen()
-        print(f"{TextColors.BLUE}Are you sure you want to logout? Enter 'y' to confirm and anything else to return to landing page.{TextColors.END}")
-        print()
-        decision = input()
-        decision = decision.lower()
-        if decision == 'y':
-            main()
-        else:
-            return
+    # def logout(self):
+    #     clear_screen()
+    #     print(f"{TextColors.BLUE}Are you sure you want to logout? Enter 'y' to confirm and anything else to return to landing page.{TextColors.END}")
+    #     print()
+    #     decision = input()
+    #     decision = decision.lower()
+    #     if decision == 'y':
+    #         # main()
+    #     else:
+    #         return
 
     def close(self):
         clear_screen()
@@ -263,71 +265,137 @@ class DataBase:
         print()
         exit()
 
-def main():
-    clear_screen()
-    print(f"{TextColors.GREEN}Welcome to Bionuvus Inc. {TextColors.END}")
-    print()
-    print(f"{TextColors.YELLOW}1. SignUp{TextColors.END}")
-    print(f"{TextColors.YELLOW}2. Login{TextColors.END}")
-    print(f"{TextColors.YELLOW}3. Exit{TextColors.END}")
-    print()
-    choice = input(f"{TextColors.BLUE}Choose an option from above to proceed: {TextColors.END}")
+app = Flask(__name__)
+CORS(app)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/bionuvus"
+mongo = PyMongo(app)
+database = DataBase()
 
-    database = DataBase()
+@app.route('/signup', methods=['POST'])
+def signup():
+    data = request.json
+    user_name = data.get('username')
+    user_name = user_name.lower()
+    password = data.get('password')
+    repassword = data.get('repassword')
 
-    if choice == '1':
-        database.signup()
+    if not user_name or not password:
+        return jsonify({
+            'error': 'All fields are required'
+        }), 401
+    
+    if password != repassword:
+        return jsonify({
+            'error': "password and repassword do not match"
+        }), 402
 
-    elif choice == '2':
-        user = database.login()
+    existing_user = mongo.db.users.find_one({'_id': user_name})
+    if existing_user:
+        return jsonify({
+            'error': 'User already exists'
+        }), 403
+    
+    mongo.db.users.insert_one({
+        '_id': user_name,
+        'password': password,
+        'category': "operator"
+    })
 
-        while True:
-            clear_screen()
-            print(f"{TextColors.GREEN}Welcome {user['_id']}.{TextColors.END}")
-            print()
-            print(f"{TextColors.YELLOW}1. Enter new sample{TextColors.END}")
-            print(f"{TextColors.YELLOW}2. Settings{TextColors.END}")
-            print(f"{TextColors.YELLOW}3. Logout{TextColors.END}")
-            print()
-            choice = input(f"{TextColors.BLUE}Choose an option from above to proceed: {TextColors.END}")
+    return jsonify({
+        'message': "User registered succesfully"
+    }), 200
 
-            if choice == '1':
-                database.enter_sample(user)
-                continue
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    user_name = data.get('username')
+    user_name = user_name.lower()
+    password = data.get('password')
 
-            elif choice == '2':
+    if not user_name or not password:
+        return jsonify({
+            'error': 'All fields are required'
+        }), 401
+    
+    existing_user = mongo.db.users.find_one({
+        '_id': user_name,
+        'password': password
+    })
 
-                if user['category'] == 'operator':
-                    Settings.settings_operator()
+    if existing_user:
+        return jsonify({
+            'message': "Login was successful"
+        }), 201
+    
+    return jsonify({
+        'error': "Password and UserName do not match."
+    }), 404
 
-                elif user['category'] == 'reviewer':
-                    Settings.settings_reviewer()
+# def main():
+    # clear_screen()
+    # print(f"{TextColors.GREEN}Welcome to Bionuvus Inc. {TextColors.END}")
+    # print()
+    # print(f"{TextColors.YELLOW}1. SignUp{TextColors.END}")
+    # print(f"{TextColors.YELLOW}2. Login{TextColors.END}")
+    # print(f"{TextColors.YELLOW}3. Exit{TextColors.END}")
+    # print()
+    # choice = input(f"{TextColors.BLUE}Choose an option from above to proceed: {TextColors.END}")
 
-                elif user['category'] == 'admin':
-                    Settings.settings_admin(database)
 
-                continue
+    # if choice == '1':
+    #     database.signup()
 
-            elif choice == '3':
-                database.logout()
-                continue
+    # elif choice == '2':
+    #     user = database.login()
 
-            else:
-                print(f"{TextColors.RED}Invalid choice, press enter to return to landing page.{TextColors.END}")
-                inp = input()
-                continue
+    #     while True:
+    #         clear_screen()
+    #         print(f"{TextColors.GREEN}Welcome {user['_id']}.{TextColors.END}")
+    #         print()
+    #         print(f"{TextColors.YELLOW}1. Enter new sample{TextColors.END}")
+    #         print(f"{TextColors.YELLOW}2. Settings{TextColors.END}")
+    #         print(f"{TextColors.YELLOW}3. Logout{TextColors.END}")
+    #         print()
+    #         choice = input(f"{TextColors.BLUE}Choose an option from above to proceed: {TextColors.END}")
 
-    elif choice == '3': 
-        exit()
-        pass
+    #         if choice == '1':
+    #             database.enter_sample(user)
+    #             continue
 
-    else:
-        clear_screen()
-        print(f"{TextColors.RED}Invalid Choice. Please enter a valid option.{TextColors.END}")
-        print()
-        print(f"{TextColors.YELLOW}Press enter to continue.{TextColors.END}")
-        inp = input()
-        main()
+    #         elif choice == '2':
+
+    #             if user['category'] == 'operator':
+    #                 Settings.settings_operator()
+
+    #             elif user['category'] == 'reviewer':
+    #                 Settings.settings_reviewer()
+
+    #             elif user['category'] == 'admin':
+    #                 Settings.settings_admin(database)
+
+    #             continue
+
+    #         elif choice == '3':
+    #             database.logout()
+    #             continue
+
+    #         else:
+    #             print(f"{TextColors.RED}Invalid choice, press enter to return to landing page.{TextColors.END}")
+    #             inp = input()
+    #             continue
+
+    # elif choice == '3': 
+    #     exit()
+    #     pass
+
+    # else:
+    #     clear_screen()
+    #     print(f"{TextColors.RED}Invalid Choice. Please enter a valid option.{TextColors.END}")
+    #     print()
+    #     print(f"{TextColors.YELLOW}Press enter to continue.{TextColors.END}")
+    #     inp = input()
+    #     main()
 
 if __name__ == '__main__':  
-    main()
+    app.run(debug=True)
+    # main()
