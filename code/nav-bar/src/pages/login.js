@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function Login() {
+function Login({updateFlag}) {
+
 
   const [formData, setFormData] = useState ({
     username: '',
@@ -20,6 +21,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/login', );
+      updateFlag(true)
     }
   }
 
