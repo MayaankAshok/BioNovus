@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link,useNavigate } from "react-router-dom";
 
 function Login() {
+
+  const navigate = useNavigate()
 
   const [formData, setFormData] = useState ({
     username: '',
@@ -16,12 +19,16 @@ function Login() {
     }));
   };
 
-  // const handleLogin = async e => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.post('http://localhost:5000/login', );
-  //   }
-  // }
+  const handleLogin = async e => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:5000/login', formData);
+      console.log(response.data)
+      navigate("/home")
+    } catch (error) {
+      console.error("Loging Error:", error)
+    }
+  }
 
   return (
     <div
@@ -32,7 +39,7 @@ function Login() {
         height: "80vh",
       }}
     >
-      <form>
+      <form onSubmit={handleLogin}>
         <label for="username">username:</label><br></br>
         <input type="text" id="username" name="username"></input><br></br>
         <label for="password">password:</label><br></br>

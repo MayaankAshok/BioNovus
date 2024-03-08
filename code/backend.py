@@ -324,7 +324,8 @@ def login():
 
     if existing_user:
         return jsonify({
-            'message': "Login was successful"
+            'message': "Login was successful",
+            'user_name': user_name
         }), 201
     
     return jsonify({
