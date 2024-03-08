@@ -13,6 +13,12 @@ import Display_S from "./pages/display_S";
 import Home from "./pages/home";
 
 function app() {
+
+  const [flag, setFlag] = React.useState(true);
+
+  const updateFlag = (newFlag) => {
+    setFlag(newFlag);
+  };
   return (
     <Router>
       {/* <Navbar> */}
@@ -24,7 +30,7 @@ function app() {
              
              </Route>
 
-            <Route path="/login" element = {<Login/>}>
+            <Route path="/login" element = {<Login updateFlag={updateFlag}/>}>
 
             </Route>
             <Route path="/home" element={<Home/>}></Route>
