@@ -1,15 +1,15 @@
 import React from "react";
-import { Nav, NavLink, Bars, NavMenu } from "./NavElements";
+import { Nav, NavLink, NavMenu } from "./NavElements";
 import Time from "./currtime";
 
-function Navbar() {
+function Navbar({ flag }) {
   return (
     <>
       <Nav>
         <NavMenu>
-          <NavLink to="/login">login</NavLink>
-          <NavLink to="/signup">sign up</NavLink>
-          
+          {flag ? <NavLink to="/home">Home</NavLink> : <NavLink to="/login">Login</NavLink>}
+          {/* <NavLink to="/signup">sign up</NavLink> */}
+          {flag && <NavLink to="/setting">Settings</NavLink>}
         </NavMenu>
         <Time />
       </Nav>

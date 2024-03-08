@@ -12,6 +12,9 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.brightness-adjust {
+  filter: brightness(0.1); /* Adjust the value (0.8) as needed for your brightness level */
+}
 
 .App-header {
   background-color: #282c34;
