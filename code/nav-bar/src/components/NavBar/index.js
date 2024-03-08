@@ -8,7 +8,7 @@ function Navbar({ flag }) {
       <Nav>
         <NavMenu>
           {flag ? <NavLink to="/home">Home</NavLink> : <NavLink to="/login">Login</NavLink>}
-          {/* <NavLink to="/signup">sign up</NavLink> */}
+          {!flag && <NavLink to="/signup">Sign Up</NavLink>}
           {flag && <NavLink to="/setting">Settings</NavLink>}
         </NavMenu>
         <Time />
