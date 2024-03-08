@@ -22,7 +22,7 @@ function app() {
   return (
     <Router>
       {/* <Navbar> */}
-        <Navbar flag ={true} /> 
+        <Navbar flag ={false} /> 
         {/* if flag true then there is a user logged in otherwise not */}
         <Routes>
           {/* <Switch> */}

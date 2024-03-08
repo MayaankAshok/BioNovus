@@ -21,7 +21,6 @@ function Login({updateFlag}) {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/login', );
-      updateFlag(true)
     }
   }
 
@@ -34,12 +33,13 @@ function Login({updateFlag}) {
         height: "80vh",
       }}
     >
-      <form onSubmit={handleLogin}>
+      <form>
         <label for="username">username:</label><br></br>
         <input type="text" id="username" name="username"></input><br></br>
         <label for="password">password:</label><br></br>
         <input type="text" id="password" name="password"></input><br></br>
-        <button type="submit" value="submit"></button>
+        <br></br>
+        <button type="submit" value="submit">Login</button>
       </form>
     </div>
   );

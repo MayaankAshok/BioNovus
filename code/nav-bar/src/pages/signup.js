@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import axios from 'axios';
+import { Link,useNavigate } from "react-router-dom";
 
 // function same(){
 //   document
@@ -9,6 +10,9 @@ function Signup() {
   // const [username,setUsername]=useState("");
   // const [password,setPassword]=useState("");
   // const [repassword,setRepassword]=useState("");
+
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -41,6 +45,7 @@ function Signup() {
     try {
       const response = await axios.post('http://localhost:5000/signup', formData);
       console.log(response.data);
+      navigate('/login')
     } catch (error) {
       console.error('Signup error:', error);
     }
