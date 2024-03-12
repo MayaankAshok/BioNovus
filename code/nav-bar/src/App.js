@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Navbar from "./components/NavBar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Settings from "./pages/setting";
@@ -12,17 +11,18 @@ import Display_U from "./pages/display_U";
 import Display_S from "./pages/display_S";
 import Home from "./pages/home";
 
-function app() {
+function App() {
 
-  const [flag, setFlag] = React.useState(true);
+  const [flag, setFlag] = useState(false);
 
   const updateFlag = (newFlag) => {
     setFlag(newFlag);
   };
+
   return (
     <Router>
       {/* <Navbar> */}
-        <Navbar flag ={false} /> 
+        <Navbar flag ={flag} /> 
         {/* if flag true then there is a user logged in otherwise not */}
         <Routes>
           {/* <Switch> */}
@@ -48,4 +48,4 @@ function app() {
   );
 }
 
-export default app;
+export default App;

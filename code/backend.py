@@ -271,6 +271,23 @@ app.config["MONGO_URI"] = "mongodb://localhost:27017/bionuvus"
 mongo = PyMongo(app)
 database = DataBase()
 
+CURR_USER = ''
+
+@app.route('/delete_users', methods=['GET'])
+def delete_users():
+    try:
+        users = list(mongo.db.users.find())
+        print(users)
+        if users:
+            user_ids = [user['_id'] for user in users]
+            return jsonify(user_ids), 202
+        
+        return jsonify({
+            'error': "users not found"
+        }), 401
+    except Exception as e:
+        return jsonify({'error': str(e)}), 402
+
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.json
@@ -307,10 +324,15 @@ def signup():
 
 @app.route('/login', methods=['POST'])
 def login():
+
+    global CURR_USER
+
     data = request.json
     user_name = data.get('username')
     user_name = user_name.lower()
     password = data.get('password')
+    print(user_name)
+    print(password)
 
     if not user_name or not password:
         return jsonify({
@@ -323,9 +345,9 @@ def login():
     })
 
     if existing_user:
+        CURR_USER = user_name
         return jsonify({
             'message': "Login was successful",
-            'user_name': user_name
         }), 201
     
     return jsonify({

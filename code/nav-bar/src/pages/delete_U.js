@@ -1,7 +1,21 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
+import axios from 'axios';
 
 function Delete_U() {
-  let items = ["id_1", "id_2", "id_3", "id_4"]; //this is where the items of anything to be displayed will go
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/delete_users');
+        const dataList = response.data;
+        console.log(dataList);
+        setItems(dataList); // Update items state with fetched data
+      } catch (error) {
+        console.error('Fetch data error: ', error);
+      }
+    };
+    fetchData(); // Call fetchData function when component mounts
+  }, []);
   const [submittedValues, setSubmittedValues] = useState({});
   const handleSubmit = (key) => {
     setSubmittedValues((prevValues) => ({
