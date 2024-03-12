@@ -3,6 +3,7 @@ from essentials import TextColors
 from flask_pymongo import PyMongo
 from flask_cors import CORS
 from flask import Flask, request, jsonify
+from bson import ObjectId
 
 class Valid_Inputs:
 
@@ -332,70 +333,30 @@ def login():
         'error': "Password and UserName do not match."
     }), 404
 
-# def main():
-    # clear_screen()
-    # print(f"{TextColors.GREEN}Welcome to Bionuvus Inc. {TextColors.END}")
-    # print()
-    # print(f"{TextColors.YELLOW}1. SignUp{TextColors.END}")
-    # print(f"{TextColors.YELLOW}2. Login{TextColors.END}")
-    # print(f"{TextColors.YELLOW}3. Exit{TextColors.END}")
-    # print()
-    # choice = input(f"{TextColors.BLUE}Choose an option from above to proceed: {TextColors.END}")
+@app.route('/display_U',methods=['GET'])
+def display_U():
+    all_users_data=mongo.db.users.find()
+    users = []
 
+    for user in all_users_data:
+        users.append({
+            'id': str(user['_id']),  # Convert ObjectId to string
+            'role': user['category']
+          
+        })
 
-    # if choice == '1':
-    #     database.signup()
+    return jsonify(users)
 
-    # elif choice == '2':
-    #     user = database.login()
-
-    #     while True:
-    #         clear_screen()
-    #         print(f"{TextColors.GREEN}Welcome {user['_id']}.{TextColors.END}")
-    #         print()
-    #         print(f"{TextColors.YELLOW}1. Enter new sample{TextColors.END}")
-    #         print(f"{TextColors.YELLOW}2. Settings{TextColors.END}")
-    #         print(f"{TextColors.YELLOW}3. Logout{TextColors.END}")
-    #         print()
-    #         choice = input(f"{TextColors.BLUE}Choose an option from above to proceed: {TextColors.END}")
-
-    #         if choice == '1':
-    #             database.enter_sample(user)
-    #             continue
-
-    #         elif choice == '2':
-
-    #             if user['category'] == 'operator':
-    #                 Settings.settings_operator()
-
-    #             elif user['category'] == 'reviewer':
-    #                 Settings.settings_reviewer()
-
-    #             elif user['category'] == 'admin':
-    #                 Settings.settings_admin(database)
-
-    #             continue
-
-    #         elif choice == '3':
-    #             database.logout()
-    #             continue
-
-    #         else:
-    #             print(f"{TextColors.RED}Invalid choice, press enter to return to landing page.{TextColors.END}")
-    #             inp = input()
-    #             continue
-
-    # elif choice == '3': 
-    #     exit()
-    #     pass
-
-    # else:
-    #     clear_screen()
-    #     print(f"{TextColors.RED}Invalid Choice. Please enter a valid option.{TextColors.END}")
-    #     print()
-    #     print(f"{TextColors.YELLOW}Press enter to continue.{TextColors.END}")
-    #     inp = input()
-    #     main()
+@app.route('/delete_U/<string:user_id>',methods=['DELETE'])
+def delete_U(user_id):
+    try:
+        result = mongo.db.users.delete_one({'_id': user_id})
+        if result.deleted_count > 0:
+            return jsonify({'message': 'User deleted successfully'})
+        else:
+            return jsonify({'message': 'User not found'})
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 if __name__ == '__main__':  
     app.run(debug=True)

@@ -12,7 +12,7 @@ import Display_U from "./pages/display_U";
 import Display_S from "./pages/display_S";
 import Home from "./pages/home";
 
-function app() {
+function App() {
 
   const [flag, setFlag] = React.useState(true);
 
@@ -30,14 +30,14 @@ function app() {
              
              </Route>
 
-            <Route path="/login" element = {<Login updateFlag={updateFlag}/>}>
+            <Route path="/login" element = {<Login/>}>
 
             </Route>
             <Route path="/home" element={<Home/>}></Route>
             <Route path="/setting" element={<Settings/>}></Route>
             <Route path="/delete_U" element={<Delete_U/>}></Route>
             <Route path="/delete_S" element={<Delete_S/>}></Route>
-            <Route path="/display_U" element={<Display_U/>}></Route>
+            <Route path="/display_U"></Route>
             <Route path="/display_S" element={<Display_S/>}></Route>
 
           
@@ -48,4 +48,4 @@ function app() {
   );
 }
 
-export default app;
+export default App;
