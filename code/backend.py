@@ -364,10 +364,9 @@ def display_U():
         users.append({
             'id': str(user['_id']),  # Convert ObjectId to string
             'role': user['category']
-          
         })
 
-    return jsonify(users)
+    return jsonify(users), 202
 
 @app.route('/delete_U/<string:user_id>',methods=['DELETE'])
 def delete_U(user_id):

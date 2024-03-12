@@ -37,7 +37,7 @@ function App() {
             <Route path="/setting" element={<Settings/>}></Route>
             <Route path="/delete_U" element={<Delete_U/>}></Route>
             <Route path="/delete_S" element={<Delete_S/>}></Route>
-            <Route path="/display_U"></Route>
+            <Route path="/display_U" element={<Display_U/>}></Route>
             <Route path="/display_S" element={<Display_S/>}></Route>
 
           
