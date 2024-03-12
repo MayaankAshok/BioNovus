@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link,useNavigate } from "react-router-dom";
 
-function Login() {
+function Login({updateFlag}) {
 
   const navigate = useNavigate()
 
@@ -24,8 +24,8 @@ function Login() {
     try {
       const response = await axios.post('http://localhost:5000/login', formData);
       console.log(response.data)
-      // updateFlag(true)
-      navigate("/setting")
+      updateFlag(true)
+      navigate("/home")
     } catch (error) {
       console.error("Logging Error:", error)
     }

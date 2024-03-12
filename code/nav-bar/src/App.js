@@ -30,7 +30,7 @@ function App() {
              
              </Route>
 
-            <Route path="/login" element = {<Login/>}>
+            <Route path="/login" element = {<Login updateFlag={updateFlag}/>}>
 
             </Route>
             <Route path="/home" element={<Home/>}></Route>
