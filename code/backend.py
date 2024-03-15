@@ -332,8 +332,8 @@ def login():
     user_name = data.get('username')
     user_name = user_name.lower()
     password = data.get('password')
-    print(user_name)
-    print(password)
+    # print(user_name)
+    # print(password)
 
     if not user_name or not password:
         return jsonify({
@@ -378,7 +378,41 @@ def delete_U(user_id):
             return jsonify({'message': 'User not found'})
     except Exception as e:
         return jsonify({'error': str(e)})
+    
+@app.route('/insert_sample', methods=['POST'])
+def insert_sample():
 
+    data = request.json
+    s_id = data.get('s_id')
+    s_type = data.get('s_type')
+
+    if not s_id or not s_type:
+        return jsonify({
+            'error': 'All fields are required'
+        }), 401
+    
+    existing_samples = mongo.db.samples.find_one({
+        '_id': s_id,
+        'type': s_type
+    })
+
+    if existing_samples:
+        return jsonify({
+            'error': 'Sample already exists'
+        }), 402
+    
+    s_type = s_type.lower()
+    mongo.db.samples.insert_one({
+        '_id': s_id,
+        'type': s_type
+    })
+
+    return jsonify({
+        'message': "User registered succesfully"
+    }), 200
+
+    # print(user_name)
+    # print(password)
 if __name__ == '__main__':  
     app.run(debug=True)
     # main()

@@ -22,11 +22,11 @@ function Start_Test() {
     const handleTestStart = async e => {
         e.preventDefault();
         try {
-          const response = await axios.post('http://localhost:5000/login', formData);
+          const response = await axios.post('http://localhost:5000/insert_sample', formData);
           console.log(response.data)
           navigate("/home")
         } catch (error) {
-          console.error("Logging Error:", error)
+          console.error("Test Start Error:", error)
         }
     }
 
