@@ -19,6 +19,8 @@ function Settings() {
                 <li><Link to="/signup">Create New User</Link></li>
                 <li><Link to="/display_U">Display Users</Link></li>
                 <li><Link to="/display_S">Display Samples</Link></li>
+                <li><Link to="/display_R">Display Results</Link></li>
+                <li><Link to="/edit_all">Edit Samples</Link></li>
             </ul>
             
             
