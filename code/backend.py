@@ -52,7 +52,7 @@ def signup():
     mongo.db.users.insert_one({
         '_id': user_name,
         'password': password,
-        'category': "operator"
+        'category': "reviewer"
     })
 
     return jsonify({
@@ -257,6 +257,51 @@ def edit_sample():
     return jsonify({
         'message': 'Updation was succesfull'
     }), 200
+
+@app.route('/new_user', methods=['POST'])
+
+def new_user():
+
+    """
+    Endpoint to register a new user.
+
+    Returns:
+        jsonify: A JSON response indicating whether the user registration was successful or not.
+    """
+
+    data = request.json
+    user_name = data.get('username')
+    user_name = user_name.lower()
+    password = data.get('password')
+    repassword = data.get('repassword')
+    role = data.get('role')
+
+    if not user_name or not password:
+        return jsonify({
+            'error': 'All fields are required'
+        }), 401
+    
+    if password != repassword:
+        return jsonify({
+            'error': "password and repassword do not match"
+        }), 402
+
+    existing_user = mongo.db.users.find_one({'_id': user_name})
+    if existing_user:
+        return jsonify({
+            'error': 'User already exists'
+        }), 403
+    
+    mongo.db.users.insert_one({
+        '_id': user_name,
+        'password': password,
+        'category': role
+    })
+
+    return jsonify({
+        'message': "User registered succesfully"
+    }), 200
+
 
 if __name__ == '__main__':  
     app.run(debug=True)
