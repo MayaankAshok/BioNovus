@@ -155,8 +155,7 @@ def display_S():
     for sample in all_samples_data:
         samples.append({
             'id': str(sample['_id']),  # Convert ObjectId to string
-            'type': sample['sample_type'],
-            'user_id':sample['user_id']
+            'type': sample['type']
         })
 
     return jsonify(samples), 202
@@ -164,13 +163,13 @@ def display_S():
 @app.route('/delete_S/<string:sample_id>',methods=['DELETE'])
 def delete_S(sample_id):
     """
-    Endpoint to delete a user by ID.
+    Endpoint to delete a sample by ID.
 
     Args:
-        user_id (str): The ID of the user to be deleted.
+        sample_id (str): The ID of the sample to be deleted.
 
     Returns:
-        jsonify: A JSON response indicating whether the user was deleted successfully or not.
+        jsonify: A JSON response indicating whether the sample was deleted successfully or not.
     """
 
     try:

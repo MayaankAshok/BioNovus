@@ -25,6 +25,9 @@ function Settings() {
             {/* <h3>{window.username}</h3> */}
             {/* <h3>{window.category}</h3> */}
             <ul>
+                <li><Link to="/delete_U">Delete Users</Link></li>
+                <li><Link to="/delete_S">Delete Samples</Link></li>
+                <li><Link to="/newuser">Create New User</Link></li>
                 { perm1(window.category) && <li><Link to="/delete_U">Delete Users</Link></li>}
                 { perm1(window.category) && <li><Link to="/delete_S">Delete Samples</Link></li>}
                 { perm1(window.category) && <li><Link to="/signup">Create New User</Link></li>}
@@ -37,6 +40,8 @@ function Settings() {
                 <li><Link to="/display_U">Display Users</Link></li>
                 <li><Link to="/display_S">Display Samples</Link></li>
                 <li><Link to="/display_R">Display Results</Link></li>
+                <li><Link to="/edit_all">Edit Samples</Link></li>
+                
                 <li><Link to="/edit_all">Edit Samples</Link></li> */}
             </ul>
             
