@@ -1,6 +1,14 @@
 import React from "react";
+import { Link,useNavigate } from "react-router-dom";
 
 function Home(){
+
+  const navigate = useNavigate()
+  
+  const HandleStartTest = e => {
+    navigate("/start_test")
+  }
+
     return(
         <div
         style={{
@@ -9,7 +17,7 @@ function Home(){
             alignItems: "center",
             height: "80vh",
           }}>
-            <h3>Test start</h3>
+            <button onClick={() => HandleStartTest()}>Test start</button>
 
         </div>
     );

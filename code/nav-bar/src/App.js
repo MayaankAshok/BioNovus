@@ -14,6 +14,7 @@ import Display_R from "./pages/display_R";
 import Edit_All from "./pages/edit_all";
 import Edit_s from "./pages/edit_S";
 
+import Start_Test from "./pages/start_test";
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
             <Route path="/edit_all" element={<Edit_All/>}></Route>
             <Route path="/edit_s/:key" element={<Edit_s/>}></Route>
             
+            <Route path="/start_test" element={<Start_Test/>}></Route>
 
           
         </Routes>

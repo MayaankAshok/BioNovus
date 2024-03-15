@@ -23,6 +23,8 @@ function Login({updateFlag}) {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/login', formData);
+      window.username =  response.data.user_name
+      window.category = response.data.category
       console.log(response.data)
       updateFlag(true)
       navigate("/home")
