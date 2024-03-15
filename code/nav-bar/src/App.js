@@ -15,10 +15,11 @@ import Edit_All from "./pages/edit_all";
 import Edit_s from "./pages/edit_S";
 
 import Start_Test from "./pages/start_test";
-
+window.username= 0;
+window.category = 0;
 function App() {
 
-  const [flag, setFlag] = useState(true);
+  const [flag, setFlag] = useState(false);
 
   const updateFlag = (newFlag) => {
     setFlag(newFlag);
