@@ -344,11 +344,14 @@ def login():
         '_id': user_name,
         'password': password
     })
-
+    print(existing_user)
     if existing_user:
         CURR_USER = user_name
         return jsonify({
             'message': "Login was successful",
+            'user_name' : user_name,
+            'category' : existing_user['category']
+
         }), 201
     
     return jsonify({
