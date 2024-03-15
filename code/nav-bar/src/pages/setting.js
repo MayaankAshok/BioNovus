@@ -30,7 +30,7 @@ function Settings() {
                 <li><Link to="/newuser">Create New User</Link></li>
                 { perm1(window.category) && <li><Link to="/delete_U">Delete Users</Link></li>}
                 { perm1(window.category) && <li><Link to="/delete_S">Delete Samples</Link></li>}
-                { perm1(window.category) && <li><Link to="/signup">Create New User</Link></li>}
+                { perm1(window.category) && <li><Link to="/newuser">Create New User</Link></li>}
                 { perm2(window.category) && <li><Link to="/display_U">Display Users</Link></li>}
                 { perm3(window.category) && <li><Link to="/display_R">Display Results</Link></li>}
                 { perm2(window.category) &&   <li><Link to="/edit_all">Edit Samples</Link></li>}
