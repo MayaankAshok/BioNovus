@@ -10,7 +10,8 @@ function Home(){
             height: "80vh",
           }}>
             <h3>Test start</h3>
-
+            {/* <h3>{window.username}</h3> */}
+            {/* <h3>{window.category}</h3> */}
         </div>
     );
 }
