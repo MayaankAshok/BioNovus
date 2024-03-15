@@ -52,7 +52,7 @@ def signup():
     mongo.db.users.insert_one({
         '_id': user_name,
         'password': password,
-        'category': "operator"
+        'category': "reviewer"
     })
 
     return jsonify({
