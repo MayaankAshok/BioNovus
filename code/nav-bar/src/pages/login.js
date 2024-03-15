@@ -23,6 +23,7 @@ function Login({updateFlag}) {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/login', formData);
+      
       console.log(response.data)
       updateFlag(true)
       navigate("/home")

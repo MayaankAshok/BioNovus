@@ -3,11 +3,7 @@ import axios from "axios";
 import { Link,useNavigate } from "react-router-dom";
 
 function Display_U() {
-  // let items = {
-  //   "user 1": "operator",
-  //   "user_2": "admin",
-  //   "user_3": "reviewer",
-  // };// this is where the users will go
+  
   const [users, setUsers] = useState([]);
 
   const getUsers = async () => {
