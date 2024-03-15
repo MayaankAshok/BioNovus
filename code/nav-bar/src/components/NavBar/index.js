@@ -8,7 +8,7 @@ function Navbar({ flag }) {
   const logout = ()=>{
     window.username = 0;
     window.category = 0;
-     // setFlag(false);
+    //  setFlag(false);
      console.log("log out")
      navigate("/login")
     
@@ -17,7 +17,7 @@ function Navbar({ flag }) {
     <>
       <Nav>
         <NavMenu>
-          {console.log("flag", flag)}
+          {console.log("flag", flag , window.username )}
           {window.username !== 0 ? <NavLink to="/home">Home</NavLink> : <NavLink to="/login">Login</NavLink>}
           {window.username === 0 && <NavLink to="/signup">Sign Up</NavLink>}
           {window.username !== 0 && <NavLink to="/setting">Settings</NavLink>}
