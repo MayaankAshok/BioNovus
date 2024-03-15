@@ -6,8 +6,8 @@ function NewUser(){
     const [formData, setFormData] = useState({
         username: '',
         password: '',
-        repassword: '',
-        user:''
+        repassword:'',
+        role:'',
       });
       
       // const [passwordMatch,setPasswordMatch]=useState(true);
@@ -16,10 +16,21 @@ function NewUser(){
         const { name, value } = e.target;
         setFormData(prevState => ({
           ...prevState,
-          [name]: value
+          [name]: value,
+          role: value,
         }));
       };
-
+    const handleSubmit = async e => {
+    e.preventDefault();
+    try {
+        const response = await axios.post('http://localhost:5000/new_user', formData);
+        window.username =  response.data.user_name
+        window.category = response.data.category
+        console.log(response.data)
+    } catch (error) {
+        console.error("Logging Error:", error)
+    }
+    }
   return (
     <div
       style={{
@@ -29,7 +40,7 @@ function NewUser(){
         height: "80vh",
       }}
     >
-      <form>
+      <form onSubmit={handleSubmit}>
         <label for="username">username:</label>
         <br></br>
         <input
