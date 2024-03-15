@@ -214,5 +214,49 @@ def insert_sample():
 
     # print(user_name)
     # print(password)
+
+@app.route('/edit_sample', methods=['POST'])
+def edit_sample():
+
+    data = request.json
+    old_id = data.get('old_id')
+    new_id = data.get('s_id')
+    new_type = data.get('type')
+    # print(data)
+    # print(old_id)
+    # print(new_id)
+    # print(new_type)
+
+    if not old_id or not new_type or not new_id:
+        return jsonify({
+            'error': 'All fields are required'
+        }), 401    
+    
+    existing_sample = mongo.db.samples.find_one({
+        '_id': old_id
+    })
+
+    if not existing_sample:
+        return jsonify({
+            'error': 'Sample does not exist'
+        }), 402
+    
+    existing_sample = mongo.db.samples.find_one({
+        '_id': new_id
+    })
+
+    if existing_sample:
+        return jsonify({
+            'error': 'The new sample ID already exists'
+        }), 404
+
+    mongo.db.samples.delete_one({'_id': old_id})
+
+    mongo.db.samples.insert_one({'_id': new_id, 'type': new_type})
+
+    return jsonify({
+        'message': 'Updation was succesfull'
+    }), 200
+
 if __name__ == '__main__':  
     app.run(debug=True)
