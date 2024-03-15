@@ -10,10 +10,15 @@ import Delete_S from "./pages/delete_S";
 import Display_U from "./pages/display_U";
 import Display_S from "./pages/display_S";
 import Home from "./pages/home";
+import Display_R from "./pages/display_R";
+import Edit_All from "./pages/edit_all";
+import Edit_s from "./pages/edit_S";
+
+import Start_Test from "./pages/start_test";
 
 function App() {
 
-  const [flag, setFlag] = useState(false);
+  const [flag, setFlag] = useState(true);
 
   const updateFlag = (newFlag) => {
     setFlag(newFlag);
@@ -39,6 +44,11 @@ function App() {
             <Route path="/delete_S" element={<Delete_S/>}></Route>
             <Route path="/display_U" element={<Display_U/>}></Route>
             <Route path="/display_S" element={<Display_S/>}></Route>
+            <Route path="/display_R" element={<Display_R/>}></Route>
+            <Route path="/edit_all" element={<Edit_All/>}></Route>
+            <Route path="/edit_s/:key" element={<Edit_s/>}></Route>
+            
+            <Route path="/start_test" element={<Start_Test/>}></Route>
 
           
         </Routes>

@@ -7,11 +7,11 @@ from essentials import TextColors
 from flask_pymongo import PyMongo
 from flask_cors import CORS
 from flask import Flask, request, jsonify
-from bson import ObjectId
+# from bson import ObjectId
 
 app = Flask(__name__)
 CORS(app)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/bionuvus"
+app.config["MONGO_URI"] = "mongodb+srv://maitreyapchitale:3jrPBDsOFqwvyuZr@bionovus.vklbulv.mongodb.net/bionovus_db"
 mongo = PyMongo(app)
 
 CURR_USER = ''
@@ -84,11 +84,14 @@ def login():
         '_id': user_name,
         'password': password
     })
-
+    print(existing_user)
     if existing_user:
         CURR_USER = user_name
         return jsonify({
             'message': "Login was successful",
+            'user_name' : user_name,
+            'category' : existing_user['category']
+
         }), 201
     
     return jsonify({
@@ -135,6 +138,7 @@ def delete_U(user_id):
             return jsonify({'message': 'User not found'})
     except Exception as e:
         return jsonify({'error': str(e)})
+    
 
 @app.route('/display_S',methods=['GET'])
 def display_S():
@@ -178,5 +182,38 @@ def delete_S(sample_id):
     except Exception as e:
         return jsonify({'error': str(e)})
 
+@app.route('/insert_sample', methods=['POST'])
+def insert_sample():
+    data = request.json
+    s_id = data.get('s_id')
+    s_type = data.get('s_type')
+
+    if not s_id or not s_type:
+        return jsonify({
+            'error': 'All fields are required'
+        }), 401
+    
+    existing_samples = mongo.db.samples.find_one({
+        '_id': s_id,
+        'type': s_type
+    })
+
+    if existing_samples:
+        return jsonify({
+            'error': 'Sample already exists'
+        }), 402
+    
+    s_type = s_type.lower()
+    mongo.db.samples.insert_one({
+        '_id': s_id,
+        'type': s_type
+    })
+
+    return jsonify({
+        'message': "User registered succesfully"
+    }), 200
+
+    # print(user_name)
+    # print(password)
 if __name__ == '__main__':  
     app.run(debug=True)
