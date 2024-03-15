@@ -10,6 +10,7 @@ import Delete_S from "./pages/delete_S";
 import Display_U from "./pages/display_U";
 import Display_S from "./pages/display_S";
 import Home from "./pages/home";
+import Start_Test from "./pages/start_test";
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
             <Route path="/delete_S" element={<Delete_S/>}></Route>
             <Route path="/display_U"></Route>
             <Route path="/display_S" element={<Display_S/>}></Route>
+            <Route path="/start_test" element={<Start_Test/>}></Route>
 
           
         </Routes>
