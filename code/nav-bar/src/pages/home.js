@@ -17,14 +17,8 @@ function Home(){
             alignItems: "center",
             height: "80vh",
           }}>
-<<<<<<< HEAD
-            <h3>Test start</h3>
-            {/* <h3>{window.username}</h3> */}
-            {/* <h3>{window.category}</h3> */}
-=======
             <button onClick={() => HandleStartTest()}>Test start</button>
 
->>>>>>> dea5942bb395a886c73370f905b9920ef6e95440
         </div>
     );
 }
