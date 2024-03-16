@@ -222,10 +222,6 @@ def edit_sample():
     old_id = data.get('old_id')
     new_id = data.get('s_id')
     new_type = data.get('type')
-    # print(data)
-    # print(old_id)
-    # print(new_id)
-    # print(new_type)
 
     if not old_id or not new_type or not new_id:
         return jsonify({
@@ -263,7 +259,7 @@ def edit_sample():
 def new_user():
 
     """
-    Endpoint to register a new user.
+    Endpoint to register a new user by the admin or reviewer.
 
     Returns:
         jsonify: A JSON response indicating whether the user registration was successful or not.
@@ -298,6 +294,7 @@ def new_user():
         'category': role
     })
 
+    print(role)
     return jsonify({
         'message': "User registered succesfully"
     }), 200
