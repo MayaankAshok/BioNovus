@@ -9,15 +9,17 @@ function Delete_U() {
 
   const getUsers = async () => {
       try {
-          const response = await axios.get('http://localhost:5000/display_U_except_curr');
-          console.log(response.data);
-          setUsers(response.data);
+          const response = await axios.get('http://localhost:5000/display_U');
+          const sortedUsers = response.data.sort((a, b) => {
+            return a.id.localeCompare(b.id);
+          });
+          console.log(sortedUsers);
+          setUsers(sortedUsers);
       } catch (error) {
           console.error('Error fetching users:', error);
       }
     };
-    
-    
+
     useEffect(() => {
       getUsers();  // Trigger the GET request when the component mounts
     }, []); 

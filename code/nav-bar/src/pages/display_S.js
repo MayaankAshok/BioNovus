@@ -9,8 +9,11 @@ function Display_S() {
   const getSamples = async () => {
       try {
           const response = await axios.get('http://localhost:5000/display_S');
-          console.log(response.data);
-          setSamples(response.data);
+          const sortedSamples = response.data.sort((a, b) => {
+            return a.id.localeCompare(b.id);
+          });
+          console.log(sortedSamples);
+          setSamples(sortedSamples);
       } catch (error) {
           alert('Error fetching samples:'+ error);
       }
