@@ -29,7 +29,7 @@ function Login({updateFlag}) {
       updateFlag(true)
       navigate("/home")
     } catch (error) {
-      console.error("Logging Error:", error)
+      alert("Logging Error:"+ error)
     }
   }
 
