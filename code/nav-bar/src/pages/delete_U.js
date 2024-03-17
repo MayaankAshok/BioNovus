@@ -1,6 +1,7 @@
 import React, { useState ,useEffect} from "react";
 import axios from "axios";
 import { Link,useNavigate } from "react-router-dom";
+import "./button.css";
 
 function Delete_U() {
   // let items = ["id_1", "id_2", "id_3", "id_4"]; //this is where the items of anything to be displayed will go
@@ -42,12 +43,12 @@ function Delete_U() {
 
   return (
     <div style={{ height: "80vh" }}>
-      <h1>Users</h1>
+      <h2>Select Users to Delete</h2>
       <ul>
         {users.map((user) => (
-          <li key={user.id}>
+          <li className="list" key={user.id}>
             {user.id}: {user.role}
-            <button onClick={() => deleteUser(user.id)}>Delete</button>
+            <button className="button" onClick={() => deleteUser(user.id)}>Delete</button>
           </li>
         ))}
       </ul>

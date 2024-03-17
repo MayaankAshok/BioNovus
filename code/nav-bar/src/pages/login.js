@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link,useNavigate } from "react-router-dom";
 
-function Login({updateFlag}) {
+function Login() {
 
   const navigate = useNavigate()
 
@@ -26,7 +26,7 @@ function Login({updateFlag}) {
       window.username =  response.data.user_name
       window.category = response.data.category
       console.log(response.data)
-      updateFlag(true)
+      
       navigate("/home")
     } catch (error) {
       alert("Logging Error:"+ error)

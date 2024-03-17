@@ -3,7 +3,7 @@ import React from "react";
 import { Nav, NavLink, NavMenu } from "./NavElements";
 import Time from "./currtime";
 
-function Navbar({ flag }) {
+function Navbar() {
   const navigate = useNavigate()
   const logout = ()=>{
     window.username = 0;
@@ -17,12 +17,13 @@ function Navbar({ flag }) {
     <>
       <Nav>
         <NavMenu>
-          {console.log("flag", flag , window.username )}
+          {console.log("flag", window.username )}
           {window.username !== 0 ? <NavLink to="/home">Home</NavLink> : <NavLink to="/login">Login</NavLink>}
           {window.username === 0 && <NavLink to="/signup">Sign Up</NavLink>}
           {window.username !== 0 && <NavLink to="/setting">Settings</NavLink>}
           {/* <NavLink to="/edit_all">edit</NavLink> */}
           {window.username !== 0 && <button onClick={logout}>Logout</button>}
+          
         </NavMenu>
         <Time />
       </Nav>

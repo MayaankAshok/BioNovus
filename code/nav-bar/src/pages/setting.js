@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./button.css"
 // import "/home/nitin/Documents/DASS/dass-project-spring-2024-team-9/code/nav-bar/src/App.css";
 
 
@@ -24,7 +25,7 @@ function Settings() {
         >
             {/* <h3>{window.username}</h3> */}
             {/* <h3>{window.category}</h3> */}
-            <ul>
+            <ul className="list">
                 {/* <li><Link to="/delete_U">Delete Users</Link></li>
                 <li><Link to="/delete_S">Delete Samples</Link></li>
                 <li><Link to="/newuser">Create New User</Link></li> */}

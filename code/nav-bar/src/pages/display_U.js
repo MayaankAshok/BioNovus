@@ -25,10 +25,13 @@ function Display_U() {
 
 return (
   <div style={{ height: "80vh" }}>
-    <h1>Users</h1>
+    <h1>All Users</h1>
     <ul>
       {users.map((user) => (
-        <li key={user.id}>
+        <li className="list" key={user.id}
+        style={{
+          fontSize: "18px"
+        }}>
           {user.id}: {user.role}
         </li>
       ))}

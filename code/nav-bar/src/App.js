@@ -19,16 +19,13 @@ window.username= 0;
 window.category = 0;
 function App() {
 
-  const [flag, setFlag] = useState(false);
 
-  const updateFlag = (newFlag) => {
-    setFlag(newFlag);
-  };
+
 
   return (
     <Router>
       {/* <Navbar> */}
-        <Navbar flag ={flag} /> 
+        <Navbar /> 
         {/* if flag true then there is a user logged in otherwise not */}
         <Routes>
           {/* <Switch> */}
@@ -36,7 +33,7 @@ function App() {
              
              </Route>
 
-            <Route path="/login" element = {<Login updateFlag={updateFlag}/>}>
+            <Route path="/login" element = {<Login />}>
 
             </Route>
             <Route path="/home" element={<Home/>}></Route>

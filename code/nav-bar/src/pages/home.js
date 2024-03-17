@@ -1,5 +1,6 @@
 import React from "react";
 import { Link,useNavigate } from "react-router-dom";
+import "./button.css"
 
 function Home(){
 
@@ -15,9 +16,9 @@ function Home(){
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "80vh",
+            height: "71vh",
           }}>
-            <button onClick={() => HandleStartTest()}>Test start</button>
+            <button className="button button1" onClick={() => HandleStartTest()}>Test start</button>
 
         </div>
     );

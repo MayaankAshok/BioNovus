@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link,useNavigate } from "react-router-dom";
 // import { useHistory } from 'react-router-dom';
 import Edit_s from "./edit_S";
+import "./button.css";
 
 
 function Edit_All() {
@@ -40,12 +41,15 @@ function Edit_All() {
         height: "80vh",
       }}
     >
-      <h1>Sample Id</h1>
+      <h1>Select Sample Id to Edit</h1>
       {items.map((item) => (
-        <li key={item}>
+        <li className="list" key={item}
+        style={{
+          fontSize: "18px"
+        }}>
           {item.id}, {item.type}
           {/* <button onClick={() => <Edit_s key={item}/>}>Edit</button> */}
-          <button onClick={navig(item.id)}>Edit</button>
+          <button className="button" onClick={navig(item.id)}>Edit</button>
           {/* {submittedValues[item] && <span>Edit</span>} */}
         </li>
       ))}

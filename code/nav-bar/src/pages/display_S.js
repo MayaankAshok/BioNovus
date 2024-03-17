@@ -25,10 +25,13 @@ function Display_S() {
 
 return (
   <div style={{ height: "80vh" }}>
-    <h1>Samples</h1>
+    <h1>All Samples</h1>
     <ul>
       {samples.map((sample) => (
-        <li key={sample.id}>
+        <li className="list" key={sample.id}
+        style={{
+          fontSize: "18px"
+        }}>
           {sample.id}: {sample.type}
         </li>
       ))}
