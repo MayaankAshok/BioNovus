@@ -15,7 +15,8 @@ CORS(app)
 app.config["MONGO_URI"] = "mongodb+srv://maitreyapchitale:3jrPBDsOFqwvyuZr@bionovus.vklbulv.mongodb.net/bionovus_db"
 mongo = PyMongo(app)
 
-CURR_USER =''
+CURR_USER = ''
+CURR_ROLE = ''
 
 @app.route('/signup', methods=['POST'])
 
@@ -71,11 +72,13 @@ def login():
     """
 
     global CURR_USER
+    global CURR_ROLE
 
     data = request.json
     user_name = data.get('username')
     user_name = user_name.lower()
     password = data.get('password')
+
 
     if not user_name or not password:
         return jsonify({
@@ -89,11 +92,11 @@ def login():
         # Verify the password using bcrypt
         if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
             CURR_USER = user_name
+            CURR_ROLE = existing_user['category']
             return jsonify({
                 'message': "Login was successful",
                 'user_name' : user_name,
                 'category' : existing_user['category']
-
                 }), 201
     
     return jsonify({
@@ -184,7 +187,8 @@ def display_S():
     for sample in all_samples_data:
         samples.append({
             'id': str(sample['_id']),  # Convert ObjectId to string
-            'type': sample['type']
+            'type': sample['type'],
+            'u_name': sample['u_id']
         })
 
     return jsonify(samples), 202
@@ -212,6 +216,9 @@ def delete_S(sample_id):
 
 @app.route('/insert_sample', methods=['POST'])
 def insert_sample():
+
+    global CURR_USER
+
     data = request.json
     s_id = data.get('s_id')
     s_type = data.get('s_type')
@@ -234,7 +241,8 @@ def insert_sample():
     s_type = s_type.lower()
     mongo.db.samples.insert_one({
         '_id': s_id,
-        'type': s_type
+        'type': s_type,
+        'u_id': CURR_USER
     })
 
     return jsonify({
@@ -328,6 +336,37 @@ def new_user():
         'message': "User registered succesfully"
     }), 200
 
+@app.route('/display_R',methods=['GET'])
+def display_R():
+    """
+    Endpoint to display all samples.
+
+    Returns:
+        jsonify: A JSON response containing sample IDs and their categories.
+    """
+
+    global CURR_ROLE
+
+    all_samples_data=mongo.db.samples.find()
+    samples = []
+    print(CURR_ROLE)
+    print(CURR_USER)
+    if CURR_ROLE == 'operator':
+        print(CURR_USER)
+        for sample in all_samples_data:
+            if sample['u_id'] == CURR_USER:
+                samples.append({
+                    'id': str(sample['_id']),  # Convert ObjectId to string
+                    'type': sample['type']
+                })
+    else:
+        for sample in all_samples_data:
+            samples.append({
+                'id': str(sample['_id']),  # Convert ObjectId to string
+                'type': sample['type']
+            })
+
+    return jsonify(samples), 202
 
 if __name__ == '__main__':  
     app.run(debug=True)

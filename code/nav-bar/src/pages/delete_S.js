@@ -40,7 +40,7 @@ function Delete_S() {
       <ul>
         {samples.map((sample) => (
           <li key={sample.id}>
-            {sample.id}: {sample.role}
+            {sample.id}: {sample.type}, {sample.u_name}
             <button onClick={() => deleteSample(sample.id)}>Delete</button>
           </li>
         ))}

@@ -29,7 +29,7 @@ return (
     <ul>
       {samples.map((sample) => (
         <li key={sample.id}>
-          {sample.id}: {sample.type}
+          {sample.id}: {sample.type}, {sample.u_name}
         </li>
       ))}
     </ul>
