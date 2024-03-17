@@ -1,23 +1,52 @@
-import React from "react";
+import React, {useState} from "react";
 import { useParams } from "react-router-dom";
+import axios from 'axios';
+import { Link,useNavigate } from "react-router-dom";
 
 function Edit_s() {
     const { key } = useParams(); // Import `useParams` from 'react-router-dom'
     
+    const navigate = useNavigate()
+
     console.log("hiii");
     console.log(key);
+
+    const [formData, setFormData] = useState({
+        s_id: '',
+        type: '',
+    });
+    // const [passwordMatch,setPasswordMatch]=useState(true);
+
+    const handleChange = e => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+        try {
+          formData['old_id'] = key
+          console.log(formData)
+          const response = await axios.post('http://localhost:5000/edit_sample', formData);
+          console.log(response.data);
+          navigate('/setting')
+        } catch (error) {
+          console.error('Edit error:', error);
+        }
+      }
     
     return (
         <div>
-
             <h3>Edit Sample id: {key}</h3><br></br>
-            <form>
-                <label for="id">Sample Id</label><br></br>
-                <input type="text" id="id" name="id"></input><br></br>
+            <form onSubmit={handleSubmit}>
+                <label for="s_id">Sample Id</label><br></br>
+                <input type="text" id="s_id" name="s_id" value={formData.s_id} onChange={handleChange}></input><br></br>
                 <label for="type">Sample type</label><br></br>
-                <input type="text" id="type" name="type"></input><br></br>
+                <input type="text" id="type" name="type" value={formData.type} onChange={handleChange}></input><br></br>
                 <button type="submit" value="submit">submit</button>
-
             </form>
         </div>
     );

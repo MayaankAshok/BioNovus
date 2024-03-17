@@ -9,7 +9,7 @@ function Delete_U() {
 
   const getUsers = async () => {
       try {
-          const response = await axios.get('http://localhost:5000/display_U');
+          const response = await axios.get('http://localhost:5000/display_U_except_curr');
           console.log(response.data);
           setUsers(response.data);
       } catch (error) {
