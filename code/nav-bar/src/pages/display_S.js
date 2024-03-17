@@ -28,11 +28,8 @@ return (
     <h1>All Samples</h1>
     <ul>
       {samples.map((sample) => (
-        <li className="list" key={sample.id}
-        style={{
-          fontSize: "18px"
-        }}>
-          {sample.id}: {sample.type}
+        <li className="list" key={sample.id}>
+          {sample.id}: {sample.type}, {sample.u_name}
         </li>
       ))}
     </ul>
