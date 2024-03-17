@@ -8,14 +8,14 @@ from flask_pymongo import PyMongo
 from flask_cors import CORS
 from flask import Flask, request, jsonify
 import bcrypt
-# from bson import ObjectId
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 CORS(app)
 app.config["MONGO_URI"] = "mongodb+srv://maitreyapchitale:3jrPBDsOFqwvyuZr@bionovus.vklbulv.mongodb.net/bionovus_db"
 mongo = PyMongo(app)
 
-CURR_USER = ''
+CURR_USER =''
 
 @app.route('/signup', methods=['POST'])
 
@@ -110,6 +110,33 @@ def display_U():
     """
 
     all_users_data=mongo.db.users.find()
+    users = []
+
+    for user in all_users_data:
+        users.append({
+            'id': str(user['_id']),  # Convert ObjectId to string
+            'role': user['category']
+        })
+
+    return jsonify(users), 202
+
+
+@app.route('/display_U_except_curr', methods=['GET'])
+def display_U_except_curr():
+    """
+    Endpoint to display all users, excluding one specific user.
+
+    Returns:
+        jsonify: A JSON response containing user IDs and their roles.
+    """
+    global CURR_USER
+    print(CURR_USER)
+
+    query = {'_id': {'$ne':CURR_USER}}
+    print(query)
+    # Find all users except the one specified by the query
+    all_users_data = mongo.db.users.find(query)
+
     users = []
 
     for user in all_users_data:
