@@ -45,8 +45,8 @@ function Login({updateFlag}) {
       <form onSubmit={handleLogin}>
         <label for="username">username:</label><br></br>
         <input type="text" id="username" name="username" value={formData.username} onChange={handleChange}></input><br></br>
-        <label for="password">password:</label><br></br>
-        <input type="text" id="password" name="password" value={formData.password} onChange={handleChange}></input><br></br>
+        <label for="password" type="password">password:</label><br></br>
+        <input type="password" id="password" name="password" value={formData.password} onChange={handleChange}></input><br></br>
         <br></br>
         <button type="submit" value="submit">Login</button>
       </form>

@@ -12,7 +12,7 @@ function Signup() {
   // const [repassword,setRepassword]=useState("");
 
   const navigate = useNavigate()
-
+  // const bcrypt = require('bcrypt');
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -71,10 +71,10 @@ function Signup() {
           onChange={handleChange}
         ></input>
         <br></br>
-        <label for="password">password:</label>
+        <label type="password" for="password">password:</label>
         <br></br>
         <input
-          type="text"
+          type="password"
           id="password"
           name="password"
           value={formData.password}
@@ -82,12 +82,12 @@ function Signup() {
           
         ></input>
         <br></br>
-        <label type="text" id="repassword">
+        <label type="password" id="repassword">
           re-enter password:
         </label>
         <br></br>
         <input
-          type="text"
+          type="password"
           id="repassword"
           name="repassword"
           value={formData.repassword}

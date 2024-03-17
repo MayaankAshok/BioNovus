@@ -7,6 +7,7 @@ from essentials import TextColors
 from flask_pymongo import PyMongo
 from flask_cors import CORS
 from flask import Flask, request, jsonify
+import bcrypt
 # from bson import ObjectId
 
 app = Flask(__name__)
@@ -43,6 +44,7 @@ def signup():
             'error': "password and repassword do not match"
         }), 402
 
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     existing_user = mongo.db.users.find_one({'_id': user_name})
     if existing_user:
         return jsonify({
@@ -51,8 +53,8 @@ def signup():
     
     mongo.db.users.insert_one({
         '_id': user_name,
-        'password': password,
-        'category': "reviewer"
+        'password': hashed_password,
+        'category': "operator"
     })
 
     return jsonify({
@@ -79,20 +81,20 @@ def login():
         return jsonify({
             'error': 'All fields are required'
         }), 401
-    
     existing_user = mongo.db.users.find_one({
         '_id': user_name,
-        'password': password
     })
-    print(existing_user)
     if existing_user:
-        CURR_USER = user_name
-        return jsonify({
-            'message': "Login was successful",
-            'user_name' : user_name,
-            'category' : existing_user['category']
+        hashed_password = existing_user.get('password')
+        # Verify the password using bcrypt
+        if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
+            CURR_USER = user_name
+            return jsonify({
+                'message': "Login was successful",
+                'user_name' : user_name,
+                'category' : existing_user['category']
 
-        }), 201
+                }), 201
     
     return jsonify({
         'error': "Password and UserName do not match."
@@ -288,13 +290,12 @@ def new_user():
             'error': 'User already exists'
         }), 403
     
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     mongo.db.users.insert_one({
         '_id': user_name,
-        'password': password,
+        'password': hashed_password,
         'category': role
     })
-
-    print(role)
     return jsonify({
         'message': "User registered succesfully"
     }), 200

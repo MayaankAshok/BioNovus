@@ -56,10 +56,10 @@ function NewUser(){
           onChange={handleChange}
         ></input>
         <br></br>
-        <label for="password">password:</label>
+        <label type="password" for="password">password:</label>
         <br></br>
         <input
-          type="text"
+          type="password"
           id="password"
           name="password"
           value={formData.password}
@@ -67,12 +67,12 @@ function NewUser(){
           
         ></input>
         <br></br>
-        <label type="text" id="repassword">
+        <label type="password" id="repassword">
           re-enter password:
         </label>
         <br></br>
         <input
-          type="text"
+          type="password"
           id="repassword"
           name="repassword"
           value={formData.repassword}
@@ -89,7 +89,7 @@ function NewUser(){
           <option value="operator">Operator</option>
         </select>
         <br></br>
-        <button type="submit">Create</button>
+        <button type="submit" value="submit">Create</button>
         
       </form>
     </div>
