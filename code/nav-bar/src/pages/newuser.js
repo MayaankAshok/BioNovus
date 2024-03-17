@@ -37,7 +37,7 @@ function NewUser(){
         console.log(response.data)
         navigate("/setting")
     } catch (error) {
-        console.error("Logging Error:", error)
+        alert("Logging Error:"+ error)
     }
     }
   return (

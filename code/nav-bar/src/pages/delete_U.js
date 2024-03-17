@@ -29,7 +29,7 @@ function Delete_U() {
       // After deletion, fetch the updated user list
       getUsers();
     } catch (error) {
-      console.error('Error deleting user:', error);
+      alert('Error deleting user:'+ error);
     }
   };
 

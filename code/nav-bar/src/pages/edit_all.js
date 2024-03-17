@@ -18,7 +18,7 @@ function Edit_All() {
           console.log(sortedSamples);
           setSamples(sortedSamples);
       } catch (error) {
-          console.error('Error fetching samples:', error);
+          alert('Error fetching samples:'+ error);
       }
   };
 

@@ -15,7 +15,7 @@ function Display_U() {
           console.log(sortedUsers);
           setUsers(sortedUsers);
       } catch (error) {
-          console.error('Error fetching users:', error);
+          alert('Error fetching users:'+ error);
       }
   };
 
