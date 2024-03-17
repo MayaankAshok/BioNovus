@@ -296,6 +296,7 @@ def new_user():
         'password': hashed_password,
         'category': role
     })
+
     return jsonify({
         'message': "User registered succesfully"
     }), 200

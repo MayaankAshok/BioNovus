@@ -9,8 +9,11 @@ function Display_U() {
   const getUsers = async () => {
       try {
           const response = await axios.get('http://localhost:5000/display_U');
-          console.log(response.data);
-          setUsers(response.data);
+          const sortedUsers = response.data.sort((a, b) => {
+            return a.id.localeCompare(b.id);
+          });
+          console.log(sortedUsers);
+          setUsers(sortedUsers);
       } catch (error) {
           console.error('Error fetching users:', error);
       }

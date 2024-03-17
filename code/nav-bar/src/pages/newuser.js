@@ -3,6 +3,9 @@ import axios from 'axios';
 import { Link,useNavigate } from "react-router-dom";
 
 function NewUser(){
+
+  const navigate = useNavigate()
+
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -29,9 +32,10 @@ function NewUser(){
         }
         console.log(formData)
         const response = await axios.post('http://localhost:5000/new_user', formData);
-        window.username =  response.data.user_name
-        window.category = response.data.category
+        // window.username =  response.data.user_name
+        // window.category = response.data.category
         console.log(response.data)
+        navigate("/setting")
     } catch (error) {
         console.error("Logging Error:", error)
     }
