@@ -33,7 +33,7 @@ function NewUser(){
         window.category = response.data.category
         console.log(response.data)
     } catch (error) {
-        console.error("Logging Error:", error)
+        alert("Logging Error:"+ error)
     }
     }
   return (

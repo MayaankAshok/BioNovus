@@ -13,7 +13,7 @@ function Delete_S() {
           console.log(response.data);
           setSamples(response.data);
       } catch (error) {
-          console.error('Error fetching samples:', error);
+          alert('Error fetching samples:'+ error);
       }
     };
     

@@ -29,7 +29,7 @@ function Start_Test() {
       console.log(response.data)
       navigate("/home")
     } catch (error) {
-      console.error("Test Start Error:", error)
+      alert("Test Start Error:"+ error)
     }
   }
 

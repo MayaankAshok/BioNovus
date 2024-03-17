@@ -34,7 +34,7 @@ function Edit_s() {
           console.log(response.data);
           navigate('/setting')
         } catch (error) {
-          console.error('Edit error:', error);
+          alert('Edit error:'+ error);
         }
       }
     

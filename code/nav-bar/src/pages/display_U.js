@@ -12,7 +12,7 @@ function Display_U() {
           console.log(response.data);
           setUsers(response.data);
       } catch (error) {
-          console.error('Error fetching users:', error);
+          alert('Error fetching users:'+ error);
       }
   };
 

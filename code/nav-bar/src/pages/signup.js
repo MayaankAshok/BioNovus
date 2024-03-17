@@ -47,7 +47,7 @@ function Signup() {
       console.log(response.data);
       navigate('/login')
     } catch (error) {
-      console.error('Signup error:', error);
+      alert('Signup error:'+ error);
     }
   }
 
