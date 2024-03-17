@@ -36,25 +36,25 @@ function Delete_S() {
 
   return (
     <div
-      style={{
-        height: "80vh",
-      }}
-    >
-      <h2>Select Samples to Delete</h2>
-      <ul>
-        {samples.map((sample) => (
-          <li className="list" key={sample.id}>
-            {sample.id}: {sample.type}, {sample.u_name}
-            <button className="button"
-              onClick={() => deleteSample(sample.id)}
+  style={{
+    height: "80vh",
+  }}
+>
+  <h2>Select Samples to Delete</h2>
+  <ul>
+    {samples.map((sample) => (
+      <li className="list" key={sample.id}>
+        {sample.id}: {sample.type}, {sample.u_name}
+        <button className="button"
+          onClick={() => deleteSample(sample.id)}
+        >
+          Delete
+        </button>
+      </li> // Added closing </li> tag here
+    ))}
+  </ul>
+</div>
 
-            >
-              Delete
-            </button>
-        
-        ))}
-      </ul>
-    </div>
   );
 }
 
