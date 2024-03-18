@@ -24,6 +24,7 @@ function App() {
   const updateFlag = (newFlag) => {
     setFlag(newFlag);
   };
+  document.body.style.background = "#676b68"
 
   return (
     <Router>
