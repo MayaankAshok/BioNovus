@@ -1,14 +1,12 @@
 """
-This file contains a Flask application that provides endpoints for user authentication, user management, and sample management.
+This file contains a Flask application that provides endpoints for user authentication, 
+user management, and sample management.
 """
 
-from essentials import clear_screen
-from essentials import TextColors
 from flask_pymongo import PyMongo
 from flask_cors import CORS
 from flask import Flask, request, jsonify
 import bcrypt
-from bson.objectid import ObjectId
 
 app = Flask(__name__)
 CORS(app)
@@ -39,7 +37,7 @@ def signup():
         return jsonify({
             'error': 'All fields are required'
         }), 401
-    
+
     if password != repassword:
         return jsonify({
             'error': "password and repassword do not match"
@@ -51,7 +49,7 @@ def signup():
         return jsonify({
             'error': 'User already exists'
         }), 403
-    
+
     mongo.db.users.insert_one({
         '_id': user_name,
         'password': hashed_password,
@@ -89,7 +87,6 @@ def login():
     })
     if existing_user:
         hashed_password = existing_user.get('password')
-        # Verify the password using bcrypt
         if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
             CURR_USER = user_name
             CURR_ROLE = existing_user['category']
@@ -98,13 +95,13 @@ def login():
                 'user_name' : user_name,
                 'category' : existing_user['category']
                 }), 201
-    
+
     return jsonify({
         'error': "Password and UserName do not match."
     }), 404
 
 @app.route('/display_U',methods=['GET'])
-def display_U():
+def display_u():
     """
     Endpoint to display all users.
 
@@ -125,7 +122,7 @@ def display_U():
 
 
 @app.route('/display_U_except_curr', methods=['GET'])
-def display_U_except_curr():
+def display_u_except_curr():
     """
     Endpoint to display all users, excluding one specific user.
 
@@ -133,8 +130,6 @@ def display_U_except_curr():
         jsonify: A JSON response containing user IDs and their roles.
     """
     global CURR_USER
-    print(CURR_USER)
-
     query = {'_id': {'$ne':CURR_USER}}
     print(query)
     # Find all users except the one specified by the query
@@ -151,7 +146,7 @@ def display_U_except_curr():
     return jsonify(users), 202
 
 @app.route('/delete_U/<string:user_id>',methods=['DELETE'])
-def delete_U(user_id):
+def delete_u(user_id):
     """
     Endpoint to delete a user by ID.
 
@@ -166,14 +161,12 @@ def delete_U(user_id):
         result = mongo.db.users.delete_one({'_id': user_id})
         if result.deleted_count > 0:
             return jsonify({'message': 'User deleted successfully'})
-        else:
-            return jsonify({'message': 'User not found'})
+        return jsonify({'message': 'User not found'})
     except Exception as e:
         return jsonify({'error': str(e)})
-    
 
 @app.route('/display_S',methods=['GET'])
-def display_S():
+def display_s():
     """
     Endpoint to display all samples.
 
@@ -194,7 +187,7 @@ def display_S():
     return jsonify(samples), 202
 
 @app.route('/delete_S/<string:sample_id>',methods=['DELETE'])
-def delete_S(sample_id):
+def delete_s(sample_id):
     """
     Endpoint to delete a sample by ID.
 
@@ -209,15 +202,18 @@ def delete_S(sample_id):
         result = mongo.db.samples.delete_one({'_id': sample_id})
         if result.deleted_count > 0:
             return jsonify({'message': 'Sample deleted successfully'})
-        else:
-            return jsonify({'message': 'Sample not found'})
+        return jsonify({'message': 'Sample not found'})
     except Exception as e:
         return jsonify({'error': str(e)})
 
 @app.route('/insert_sample', methods=['POST'])
 def insert_sample():
+    """
+    Endpoint to enter a sample using the start test button.
 
-    global CURR_USER
+    Returns:
+        A JSON response indicating whether the sample was inserted or not.
+    """
 
     data = request.json
     s_id = data.get('s_id')
@@ -227,7 +223,7 @@ def insert_sample():
         return jsonify({
             'error': 'All fields are required'
         }), 401
-    
+
     existing_samples = mongo.db.samples.find_one({
         '_id': s_id,
         'type': s_type
@@ -237,7 +233,9 @@ def insert_sample():
         return jsonify({
             'error': 'Sample already exists'
         }), 402
-    
+
+    global CURR_USER
+
     s_type = s_type.lower()
     mongo.db.samples.insert_one({
         '_id': s_id,
@@ -254,6 +252,12 @@ def insert_sample():
 
 @app.route('/edit_sample', methods=['POST'])
 def edit_sample():
+    """
+    Endpoint to edit a specific sample.
+
+    Returns:
+        A JSON response stating if the edit was succesful or not.
+    """
 
     data = request.json
     old_id = data.get('old_id')
@@ -263,8 +267,8 @@ def edit_sample():
     if not old_id or not new_type or not new_id:
         return jsonify({
             'error': 'All fields are required'
-        }), 401    
-    
+        }), 401
+
     existing_sample = mongo.db.samples.find_one({
         '_id': old_id
     })
@@ -273,7 +277,7 @@ def edit_sample():
         return jsonify({
             'error': 'Sample does not exist'
         }), 402
-    
+
     existing_sample = mongo.db.samples.find_one({
         '_id': new_id
     })
@@ -285,14 +289,13 @@ def edit_sample():
 
     mongo.db.samples.delete_one({'_id': old_id})
 
-    mongo.db.samples.insert_one({'_id': new_id, 'type': new_type})
+    mongo.db.samples.insert_one({'_id': new_id, 'type': new_type, 'u_id': CURR_USER})
 
     return jsonify({
         'message': 'Updation was succesfull'
     }), 200
 
 @app.route('/new_user', methods=['POST'])
-
 def new_user():
 
     """
@@ -313,7 +316,7 @@ def new_user():
         return jsonify({
             'error': 'All fields are required'
         }), 401
-    
+
     if password != repassword:
         return jsonify({
             'error': "password and repassword do not match"
@@ -324,7 +327,7 @@ def new_user():
         return jsonify({
             'error': 'User already exists'
         }), 403
-    
+
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     mongo.db.users.insert_one({
         '_id': user_name,
@@ -337,7 +340,7 @@ def new_user():
     }), 200
 
 @app.route('/display_R',methods=['GET'])
-def display_R():
+def display_r():
     """
     Endpoint to display all samples.
 
@@ -345,14 +348,11 @@ def display_R():
         jsonify: A JSON response containing sample IDs and their categories.
     """
 
-    global CURR_ROLE
-
     all_samples_data=mongo.db.samples.find()
     samples = []
-    print(CURR_ROLE)
-    print(CURR_USER)
+    global CURR_USER
+    global CURR_ROLE
     if CURR_ROLE == 'operator':
-        print(CURR_USER)
         for sample in all_samples_data:
             if sample['u_id'] == CURR_USER:
                 samples.append({
@@ -368,5 +368,5 @@ def display_R():
 
     return jsonify(samples), 202
 
-if __name__ == '__main__':  
+if __name__ == '__main__':
     app.run(debug=True)
