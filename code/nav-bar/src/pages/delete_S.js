@@ -51,7 +51,7 @@ function Delete_S() {
             >
               Delete
             </button>
-        
+          </li>
         ))}
       </ul>
     </div>
