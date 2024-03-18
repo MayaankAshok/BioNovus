@@ -18,6 +18,17 @@ import Start_Test from './pages/start_test';
 window.username = 0;
 window.category = 0;
 function App() {
+<<<<<<< HEAD
+
+  const [flag, setFlag] = useState(false);
+
+  const updateFlag = (newFlag) => {
+    setFlag(newFlag);
+  };
+  document.body.style.background = "#676b68"
+
+=======
+>>>>>>> d36f4046c8c90bf650d4a870242fff72e7b59030
   return (
     <Router>
       {/* <Navbar> */}

@@ -1,20 +1,83 @@
-# Getting Started with Create React App
+# README
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Aim
 
-## Available Scripts
+The aim of this project is to create a webapp for a biosensor.
 
-In the project directory, you can run:
+## Technologies used
 
-### `npm start`
+### React and NodeJS
 
+1. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+2. Libraries used are:
+
+```
+import React,{useState} from "react"
+import axios from 'axios'
+import { Link,useNavigate } from "react-router-dom";
+```
+
+### MongoDB and Flask
+
+1. MongoDB was used as the database and Flask served as the endpoints for user authentication etc.
+
+2. Libraries used are:
+
+```
+from essentials import clear_screen
+from essentials import TextColors
+from flask_pymongo import PyMongo
+from flask_cors import CORS
+from flask import Flask, request, jsonify
+import bcrypt
+from bson.objectid import ObjectId
+```
+
+## Running the webapp
+
+`npm start`
+
+In the project directory /code/nav-bar, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
+`python3 backend.py`
+
+This command in the project directory /code will help to run the backend flask.
+
+## Project Directory Structure
+
+In the project directory structure is as described below :
+
+```
+.
+├── code
+│   ├── img
+│   ├── nav-bar
+│   │   ├── node_modules
+│   │   ├── public
+│   │   └── src
+│   └── __pycache__
+├── docs
+├── MoM
+└── Pics
+    ├── Project_images
+    └── test
+    
+```
+
+1. `/code` directory contains all the relevant code to the project.
+2. `/code/nav-bar/src` directory contains the main Javascipt file `App.js` and `index.js` for the whole web-app.
+3. `/code/nav-bar/src/pages` directory contains all code files to all the relevant pages on the web-app
+4. `/docs` directory contains the all relevant documentation related to the project.
+5. `/MOM` directory contains MOM's to all the meetings we had with our client
+
+
+<!-- `npm test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
@@ -67,4 +130,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
