@@ -1,56 +1,58 @@
-import React,{useState} from "react";
+import React, {useState} from 'react';
 import axios from 'axios';
-import { Link,useNavigate } from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
 
-function NewUser(){
+function NewUser() {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    repassword: '',
+    role: '',
+  });
 
-    const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-        repassword:'',
-        role:'',
-      });
-      
-      // const [passwordMatch,setPasswordMatch]=useState(true);
-    
-      const handleChange = e => {
-        const { name, value } = e.target;
+  // const [passwordMatch,setPasswordMatch]=useState(true);
 
-        setFormData(prevState => ({
-          ...prevState,
-          [name]: value,
-          role: value,
-        }));
-      };
-    const handleSubmit = async e => {
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+      role: value,
+    }));
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        if (formData['repassword'] === formData['role']) {
-          formData['role'] = 'admin'
-        }
-        console.log(formData)
-        const response = await axios.post('http://localhost:5000/new_user', formData);
-        // window.username =  response.data.user_name
-        // window.category = response.data.category
-        console.log(response.data)
-        navigate("/setting")
+      if (formData['repassword'] === formData['role']) {
+        formData['role'] = 'admin';
+      }
+      console.log(formData);
+      const response = await axios.post(
+          'http://localhost:5000/new_user',
+          formData,
+      );
+      // window.username =  response.data.user_name
+      // window.category = response.data.category
+      console.log(response.data);
+      navigate('/setting');
     } catch (error) {
-        alert("Logging Error:"+ error)
+      alert('Logging Error:' + error);
     }
-    }
+  };
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "80vh",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '80vh',
       }}
     >
       <form onSubmit={handleSubmit}>
-        <label for="username">username:</label>
+        <label htmlFor="username">username:</label>
         <br></br>
         <input
           type="text"
@@ -60,7 +62,9 @@ function NewUser(){
           onChange={handleChange}
         ></input>
         <br></br>
-        <label type="password" for="password">password:</label>
+        <label type="password" htmlFor="password">
+          password:
+        </label>
         <br></br>
         <input
           type="password"
@@ -68,7 +72,6 @@ function NewUser(){
           name="password"
           value={formData.password}
           onChange={handleChange}
-          
         ></input>
         <br></br>
         <label type="password" id="repassword">
@@ -85,20 +88,20 @@ function NewUser(){
         {/* {!passwordMatch && <p style={{ color: "red" }}>Passwords do not match</p>} */}
         <br />
         <br></br>
-        
-        <label for="users">choose a user:</label>
+
+        <label htmlFor="users">choose a user:</label>
         <select id="users" name="userRole" onChange={handleChange}>
           <option value="admin">Admin</option>
           <option value="reviewer">Reviewer</option>
           <option value="operator">Operator</option>
         </select>
         <br></br>
-        <button type="submit" value="submit">Create</button>
-        
+        <button type="submit" value="submit">
+          Create
+        </button>
       </form>
     </div>
   );
-
 }
 
 export default NewUser;
