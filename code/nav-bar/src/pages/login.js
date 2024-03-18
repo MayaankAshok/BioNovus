@@ -1,54 +1,76 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Link,useNavigate } from "react-router-dom";
+import React, {useState} from 'react';
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
-function Login({updateFlag}) {
+function Login() {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-
-  const [formData, setFormData] = useState ({
+  const [formData, setFormData] = useState({
     username: '',
-    password: ''
+    password: '',
   });
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleLogin = async e => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/login', formData);
-      window.username =  response.data.user_name
-      window.category = response.data.category
-      console.log(response.data)
-      updateFlag(true)
-      navigate("/home")
+      const response = await axios.post(
+          'http://localhost:5000/login',
+          formData,
+      );
+      window.username = response.data.user_name;
+      window.category = response.data.category;
+      console.log(response.data);
+
+      navigate('/home');
     } catch (error) {
-      alert("Logging Error:"+ error)
+      alert('Logging Error:' + error);
     }
-  }
+  };
 
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "80vh",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '80vh',
       }}
     >
       <form onSubmit={handleLogin}>
-        <label for="username">username:</label><br></br>
-        <input type="text" id="username" name="username" value={formData.username} onChange={handleChange}></input><br></br>
-        <label for="password" type="password">password:</label><br></br>
-        <input type="password" id="password" name="password" value={formData.password} onChange={handleChange}></input><br></br>
+        <label htmlFor="username">username:</label>
         <br></br>
-        <button type="submit" value="submit">Login</button>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+        ></input>
+        <br></br>
+        <label htmlFor="password" type="password">
+          password:
+        </label>
+        <br></br>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        ></input>
+        <br></br>
+        <br></br>
+        <button type="submit" value="submit">
+          Login
+        </button>
       </form>
     </div>
   );

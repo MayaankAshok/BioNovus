@@ -9,10 +9,9 @@ function Navbar({ flag }) {
     window.username = 0;
     window.category = 0;
     //  setFlag(false);
-     console.log("log out")
-     navigate("/login")
-    
-  }
+    console.log('log out');
+    navigate('/login');
+  };
   return (
     <>
       <Nav>

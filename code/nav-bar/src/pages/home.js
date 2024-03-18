@@ -1,26 +1,28 @@
-import React from "react";
-import { Link,useNavigate } from "react-router-dom";
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
+import './button.css';
 
-function Home(){
+function Home() {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-  
-  const HandleStartTest = e => {
-    navigate("/start_test")
-  }
+  const HandleStartTest = (e) => {
+    navigate('/start_test');
+  };
 
-    return(
-        <div
-        style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "80vh",
-          }}>
-            <button onClick={() => HandleStartTest()}>Test start</button>
-
-        </div>
-    );
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '71vh',
+      }}
+    >
+      <button className="button button1" onClick={() => HandleStartTest()}>
+        Test start
+      </button>
+    </div>
+  );
 }
 
 export default Home;
