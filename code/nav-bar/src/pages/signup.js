@@ -1,6 +1,6 @@
-import React,{useState} from "react";
+import React, {useState} from 'react';
 import axios from 'axios';
-import { Link,useNavigate } from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
 
 // function same(){
 //   document
@@ -11,20 +11,20 @@ function Signup() {
   // const [password,setPassword]=useState("");
   // const [repassword,setRepassword]=useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // const bcrypt = require('bcrypt');
   const [formData, setFormData] = useState({
     username: '',
     password: '',
-    repassword: ''
+    repassword: '',
   });
   // const [passwordMatch,setPasswordMatch]=useState(true);
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -40,28 +40,31 @@ function Signup() {
   //   setPasswordMatch(password===event.target.value);
   // }
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/signup', formData);
+      const response = await axios.post(
+          'http://localhost:5000/signup',
+          formData,
+      );
       console.log(response.data);
-      navigate('/login')
+      navigate('/login');
     } catch (error) {
-      alert('Signup error:'+ error);
+      alert('Signup error:' + error);
     }
-  }
+  };
 
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "80vh",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '80vh',
       }}
     >
       <form onSubmit={handleSubmit}>
-        <label for="username">username:</label>
+        <label htmlFor="username">username:</label>
         <br></br>
         <input
           type="text"
@@ -71,7 +74,9 @@ function Signup() {
           onChange={handleChange}
         ></input>
         <br></br>
-        <label type="password" for="password">password:</label>
+        <label type="password" htmlFor="password">
+          password:
+        </label>
         <br></br>
         <input
           type="password"
@@ -79,7 +84,6 @@ function Signup() {
           name="password"
           value={formData.password}
           onChange={handleChange}
-          
         ></input>
         <br></br>
         <label type="password" id="repassword">

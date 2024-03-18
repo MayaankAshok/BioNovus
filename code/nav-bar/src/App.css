@@ -13,7 +13,9 @@
   }
 }
 .brightness-adjust {
-  filter: brightness(0.1); /* Adjust the value (0.8) as needed for your brightness level */
+  filter: brightness(
+    0.1
+  ); /* Adjust the value (0.8) as needed for your brightness level */
 }
 
 .App-header {
