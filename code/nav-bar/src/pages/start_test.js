@@ -19,12 +19,16 @@ function Start_Test() {
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
+      s_type: value,
     }));
   };
 
   const handleTestStart = async (e) => {
     e.preventDefault();
     try {
+      if (formData['s_id'] === formData['s_type']) {
+        formData['s_type'] = 'blood';
+      }
       const response = await axios.post(
           'http://localhost:5000/insert_sample',
           formData,
@@ -58,13 +62,18 @@ function Start_Test() {
         <br></br>
         <label htmlFor="s_type">sample_type:</label>
         <br></br>
-        <input
+        <select 
           type="text"
           id="s_type"
           name="s_type"
-          value={formData.s_type}
+          
           onChange={handleChange}
-        ></input>
+          
+        >
+          <option value="blood">blood</option>
+          <option value="urine">urine</option>
+          <option value="saliva">saliva</option>
+        </select>
         <br></br>
         <br></br>
         <button type="submit" value="submit">

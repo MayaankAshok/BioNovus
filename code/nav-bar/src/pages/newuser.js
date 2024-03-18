@@ -26,9 +26,9 @@ function NewUser() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (formData['repassword'] === formData['role']) {
-        formData['role'] = 'admin';
-      }
+      // if (formData['repassword'] === formData['role']) {
+      //   formData['role'] = 'admin';
+      // }
       console.log(formData);
       const response = await axios.post(
           'http://localhost:5000/new_user',
@@ -91,6 +91,7 @@ function NewUser() {
 
         <label htmlFor="users">choose a user:</label>
         <select id="users" name="userRole" onChange={handleChange}>
+          <option value='-'>-</option>
           <option value="admin">Admin</option>
           <option value="reviewer">Reviewer</option>
           <option value="operator">Operator</option>

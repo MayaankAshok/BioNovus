@@ -21,7 +21,7 @@ function Navbar({ flag }) {
           {window.username === 0 && <NavLink to="/signup"><NavItem name = "Sign Up"></NavItem></NavLink>}
           {window.username !== 0 && <NavLink to="/setting"><NavItem name = "Settings"></NavItem></NavLink>}
           {/* <NavLink to="/edit_all">edit</NavLink> */}
-          {window.username !== 0 && <NavItem name="Logout" onClick={logout}>  </NavItem>}
+          {window.username !== 0 && <button style={{backgroundColor: "transparent",border:"None"}} onClick={logout}><NavItem name="Logout"></NavItem>  </button>}
         </NavMenu>
         <Time />
       </Nav>

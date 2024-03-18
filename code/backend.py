@@ -219,6 +219,7 @@ def insert_sample():
     data = request.json
     s_id = data.get('s_id')
     s_type = data.get('s_type')
+    print(data)
 
     if not s_id or not s_type:
         return jsonify({
