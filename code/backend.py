@@ -323,6 +323,11 @@ def new_user():
         return jsonify({
             'error': "password and repassword do not match"
         }), 402
+    
+    if repassword == role:
+        return jsonify({
+            'error': "password cannot be one of the roles or role is not selected"
+        })
 
     existing_user = mongo.db.users.find_one({'_id': user_name})
     if existing_user:
