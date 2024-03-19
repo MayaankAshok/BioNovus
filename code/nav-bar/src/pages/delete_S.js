@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 // import { Link, useNavigate } from "react-router-dom";
 import './button.css';
+import NavItem from '../components/NavBar/NavItem';
 
 function Delete_S() {
   // const [submittedValues, setSubmittedValues] = useState({});
@@ -44,8 +45,8 @@ function Delete_S() {
         {samples.map((sample) => (
           <li className="list" key={sample.id}>
             {sample.id}: {sample.type}, {sample.u_name}
-            <button className="button" onClick={() => deleteSample(sample.id)}>
-              Delete
+            <button className="button1" onClick={() => deleteSample(sample.id)}>
+              <NavItem name="Delete"></NavItem>
             </button>
           </li> // Added closing </li> tag here
         ))}

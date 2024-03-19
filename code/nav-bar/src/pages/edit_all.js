@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 // import { useHistory } from 'react-router-dom';
 // import Edit_s from "./edit_S";
 import './button.css';
+import NavItem from '../components/NavBar/NavItem';
 
 function Edit_All() {
   // let items = ["id_1", "id_2", "id_3", "id_4"]; // This is where the items of anything to be displayed will go
@@ -50,8 +51,8 @@ function Edit_All() {
         >
           {item.id}, {item.type}, {item.u_name}
           {/* <button onClick={() => <Edit_s key={item}/>}>Edit</button> */}
-          <button className="button" onClick={navig(item.id)}>
-            Edit
+          <button className="button1" onClick={navig(item.id)}>
+            <NavItem name="Edit"></NavItem>
           </button>
           {/* {submittedValues[item] && <span>Edit</span>} */}
         </li>
