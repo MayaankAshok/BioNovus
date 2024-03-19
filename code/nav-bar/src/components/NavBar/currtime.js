@@ -18,7 +18,7 @@ function Time() {
     return d.toLocaleTimeString(undefined, option);
   }
 
-  return <p style={{color:"#09db33"}}>{currentTime}</p>;
+  return <p style={{color:"white"}}>{currentTime}</p>;
 }
 
 export default Time;
