@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import './button.css';
-
+import NavItem from '../components/NavBar/NavItem';
 function Home() {
   const navigate = useNavigate();
 
@@ -18,8 +18,8 @@ function Home() {
         height: '71vh',
       }}
     >
-      <button className="button button1" onClick={() => HandleStartTest()}>
-        Test start
+      <button className="button1" onClick={() => HandleStartTest()}>
+        <NavItem name="Start Test"></NavItem>
       </button>
     </div>
   );
