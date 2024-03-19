@@ -58,6 +58,7 @@ function Signup() {
     <div
       style={{
         display: 'flex',
+        fontFamily:"consolas",
         justifyContent: 'center',
         alignItems: 'center',
         height: '70vh',
@@ -66,6 +67,7 @@ function Signup() {
       <form
         style={{
         color: "white",
+        fontFamily:"consolas",
         background : "#0a1a04",paddingLeft: "25px", paddingRight: "25px", paddingBottom: "10px", paddingTop: "10px",
         clipPath: "polygon( 15px 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0% 50%)",
 
@@ -80,6 +82,7 @@ function Signup() {
           style={{
             backgroundColor: "#243829",
             border:"None",
+            fontFamily:"consolas",
             color : "white"
           }}
           value={formData.username}
@@ -138,6 +141,7 @@ function Signup() {
               left:"-25%",
               color : "white",
               border :"None",
+              fontFamily:"consolas",
               background : "#243829",paddingLeft: "10px", paddingRight: "10px", paddingBottom: "5px", paddingTop: "5px",
               clipPath: "polygon( 5px 0, calc(100% - 5px) 0, 100% 50%, calc(100% - 5px) 100%, 5px 100%, 0% 50%)",    
             }}

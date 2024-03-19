@@ -40,6 +40,7 @@ function Login() {
       style={{
         display: 'flex',
         color:'white',
+        fontFamily:"consolas",
         justifyContent: 'center',
         alignItems: 'center',
         height: '80vh',
@@ -60,6 +61,7 @@ function Login() {
           name="username"
           style={{
             backgroundColor: "#243829",
+            fontFamily:"consolas",
             border:"None",
             color : "white"
           }}
@@ -96,6 +98,7 @@ function Login() {
               position:"relative",
               top:"-5px",
               left:"-20%",
+              fontFamily:"consolas",
               color : "white",
               border :"None",
               background : "#243829",paddingLeft: "10px", paddingRight: "10px", paddingBottom: "5px", paddingTop: "5px",
