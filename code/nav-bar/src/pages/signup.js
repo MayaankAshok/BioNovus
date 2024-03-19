@@ -58,27 +58,48 @@ function Signup() {
     <div
       style={{
         display: 'flex',
+        fontFamily:"consolas",
         justifyContent: 'center',
         alignItems: 'center',
-        height: '80vh',
+        height: '70vh',
       }}
     >
-      <form onSubmit={handleSubmit}>
+      <form
+        style={{
+        color: "white",
+        fontFamily:"consolas",
+        background : "#0a1a04",paddingLeft: "25px", paddingRight: "25px", paddingBottom: "10px", paddingTop: "10px",
+        clipPath: "polygon( 15px 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0% 50%)",
+
+        }}
+       onSubmit={handleSubmit}>
         <label htmlFor="username">username:</label>
         <br></br>
         <input
           type="text"
           id="username"
           name="username"
+          style={{
+            backgroundColor: "#243829",
+            border:"None",
+            fontFamily:"consolas",
+            color : "white"
+          }}
           value={formData.username}
           onChange={handleChange}
         ></input>
         <br></br>
-        <label type="password" htmlFor="password">
+        <label 
+        type="password" htmlFor="password">
           password:
         </label>
         <br></br>
         <input
+          style={{
+            backgroundColor: "#243829",
+            border:"None",
+            color : "white"
+          }}
           type="password"
           id="password"
           name="password"
@@ -91,6 +112,11 @@ function Signup() {
         </label>
         <br></br>
         <input
+          style={{
+            backgroundColor: "#243829",
+            border:"None",
+            color : "white"
+          }}
           type="password"
           id="repassword"
           name="repassword"
@@ -100,7 +126,29 @@ function Signup() {
         {/* {!passwordMatch && <p style={{ color: "red" }}>Passwords do not match</p>} */}
         <br />
         <br></br>
-        <button type="submit">Sign Up</button>
+        
+        <div
+          style={{
+            position: "relative",
+            left:"50%"
+          }}
+        >
+
+          <button 
+            style={{
+              position:"relative",
+              top:"-5px",
+              left:"-25%",
+              color : "white",
+              border :"None",
+              fontFamily:"consolas",
+              background : "#243829",paddingLeft: "10px", paddingRight: "10px", paddingBottom: "5px", paddingTop: "5px",
+              clipPath: "polygon( 5px 0, calc(100% - 5px) 0, 100% 50%, calc(100% - 5px) 100%, 5px 100%, 0% 50%)",    
+            }}
+            type="submit">
+            Sign Up
+          </button>
+        </div>
         {/* <label for="users">choose a user:</label>
         <select id="users" name="users">
           <option value="admin">Admin</option>

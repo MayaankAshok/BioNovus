@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import './button.css';
+import { Nav } from '../components/NavBar/NavElements';
+import NavItem from '../components/NavBar/NavItem';
 
 function Display_R() {
   // let items = ["id_1", "id_2", "id_3", "id_4"]; //this is where the items of anything to be displayed will go
@@ -39,7 +41,7 @@ function Display_R() {
           }}
         >
           {item.id}: {item.type}
-          <button className="button">Print</button>
+          <button className="button1"><NavItem name="Print"></NavItem></button>
         </li>
       ))}
     </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import TimeItem  from "./TimeItem";
 
 function Time() {
   const [currentTime, setCurrentTime] = useState(getCurrentTime());
@@ -18,7 +19,7 @@ function Time() {
     return d.toLocaleTimeString(undefined, option);
   }
 
-  return <p style={{color:"white"}}>{currentTime}</p>;
+  return <TimeItem name={currentTime} ></TimeItem>;
 }
 
 export default Time;
