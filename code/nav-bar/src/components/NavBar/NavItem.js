@@ -11,4 +11,6 @@ function NavItem({name}) {
     </div>
 }
 
+
+
 export default NavItem

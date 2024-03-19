@@ -14,6 +14,7 @@ function Navbar({ flag }) {
   };
   return (
     <>
+      <Time />
       <Nav>
         <NavMenu>
           {console.log("flag", flag , window.username )}
@@ -23,7 +24,6 @@ function Navbar({ flag }) {
           {/* <NavLink to="/edit_all">edit</NavLink> */}
           {window.username !== 0 && <button style={{backgroundColor: "transparent",border:"None"}} onClick={logout}><NavItem name="Logout"></NavItem>  </button>}
         </NavMenu>
-        <Time />
       </Nav>
     </>
   );
