@@ -36,7 +36,7 @@ npm start
 ```
 
 This Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.\
+Open [http://localhost:3000] to view it in your browser.\
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
@@ -56,7 +56,7 @@ In the project directory structure is as described below :
 .
 ├── code
 │   ├── img
-│   ├── nav-bar
+│   ├── app
 │   │   ├── node_modules
 │   │   ├── public
 │   │   └── src
@@ -69,7 +69,7 @@ In the project directory structure is as described below :
 ```
 
 1. `/code` directory contains all the relevant code to the project.
-2. `/code/nav-bar/src` directory contains the main JavaScript file `App.js` and `index.js` for the whole web-app.
-3. `/code/nav-bar/src/pages` directory contains all code files for all the relevant pages on the web-app.
+2. `/code/app/src` directory contains the main JavaScript file `App.js` and `index.js` for the whole web-app.
+3. `/code/app/src/pages` directory contains all code files for all the relevant pages on the web-app.
 4. `/docs` directory contains all relevant documentation related to the project.
 5. `/MOM` directory contains MOMs for all the meetings we had with our client.
