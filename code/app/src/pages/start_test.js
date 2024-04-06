@@ -3,8 +3,20 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {useFilePicker} from 'use-file-picker';
 
+function _arrayBufferToBase64( buffer ) {
+  var binary = '';
+  var bytes = new Uint8Array( buffer );
+  var len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode( bytes[ i ] );
+  }
+  return window.btoa( binary );
+}
+
 function Start_Test() {
+  let fileData = 0;
   const {openFilePicker, filesContent} = useFilePicker({
+    readAs : "ArrayBuffer",
     accept: '.jpg',
   });
   const navigate = useNavigate();
@@ -25,13 +37,14 @@ function Start_Test() {
 
   const handleTestStart = async (e) => {
     e.preventDefault();
+    console.log(  "fileData", fileData);
     try {
       if (formData['s_id'] === formData['s_type']) {
         formData['s_type'] = 'blood';
       }
       const response = await axios.post(
           'http://localhost:5000/insert_sample',
-          formData,
+          {'s_id': formData['s_id'], 's_type': formData['s_type'], 's_data' : fileData},
       );
       console.log(response.data);
       navigate('/home');
@@ -83,13 +96,22 @@ function Start_Test() {
       <br />
       <button onClick={() => openFilePicker()}>Select files</button>
       <br />
-      {filesContent.map((file, index) => (
+      {filesContent.map((file, index) => {
+        // console.log(file);
+        // let utf8Encode = new TextEncoder();
+
+        // fileData = utf8Encode.encode(file.content);
+        console.log("hello", file.content);
+        fileData = _arrayBufferToBase64(file.content);
+        // fileData = file.content;
+        
+        (
         <div key={index}>
           <h2>{file.name}</h2>
           {/* <div key={index}>{file.content}</div> */}
           <br />
         </div>
-      ))}
+      )})}
     </div>
   );
 }

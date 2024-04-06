@@ -7,8 +7,8 @@ from flask_pymongo import PyMongo
 from flask_cors import CORS
 from flask import Flask, request, jsonify
 import bcrypt
-
-
+import base64
+from image_proc import get_intensity
 app = Flask(__name__)
 CORS(app)
 app.config["MONGO_URI"] = "mongodb+srv://maitreyapchitale:3jrPBDsOFqwvyuZr@bionovus.vklbulv.mongodb.net/bionovus_db"
@@ -219,13 +219,18 @@ def insert_sample():
     data = request.json
     s_id = data.get('s_id')
     s_type = data.get('s_type')
-    print(data)
-
+    # print(data['s_data'])
+    with open('cache/pic.jpg', 'wb') as file:
+        # print(data["s_data"][:400])
+        file.write(base64.b64decode( data["s_data"]))
+    # print("Created file")
+    intensity = get_intensity('cache/pic.jpg')
+    print (intensity)
     if not s_id or not s_type:
         return jsonify({
             'error': 'All fields are required'
         }), 401
-
+ 
     existing_samples = mongo.db.samples.find_one({
         '_id': s_id,
         'type': s_type
