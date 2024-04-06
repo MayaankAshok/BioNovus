@@ -29,7 +29,7 @@ The aim of this project is to create a webapp for a biosensor.
 
 ## Running the webapp
 
-In the project directory /code/nav-bar, you can run:
+In the project directory /code/app, you can run:
 
 ```bash
 npm start
