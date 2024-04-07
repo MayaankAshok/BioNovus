@@ -158,8 +158,9 @@ def delete_u(user_id):
     """
 
     try:
-        result = mongo.db.users.delete_one({'_id': user_id})
-        if result.deleted_count > 0:
+        result_users = mongo.db.users.delete_one({'_id': user_id})
+        result_samples = mongo.db.samples.delete_many({})
+        if result_users.deleted_count > 0:
             return jsonify({'message': 'User deleted successfully'})
         return jsonify({'message': 'User not found'})
     except Exception as e:
@@ -181,7 +182,8 @@ def display_s():
         samples.append({
             'id': str(sample['_id']),  # Convert ObjectId to string
             'type': sample['type'],
-            'u_name': sample['u_id']
+            'u_name': sample['u_id'],
+            'intensity':sample['intensity']
         })
 
     return jsonify(samples), 202
@@ -241,7 +243,6 @@ def insert_sample():
         'intensity':intensity
     })
 
-    
     if existing_samples:
         return jsonify({
             'error': 'Sample already exists'
@@ -363,7 +364,7 @@ def display_r():
     """
 
     all_samples_data=mongo.db.samples.find()
-    print(all_samples_data)
+
     samples = []
     global CURR_USER
     global CURR_ROLE
