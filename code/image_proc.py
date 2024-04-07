@@ -47,9 +47,9 @@ def get_intensity(img_path):
     mean2 = cv2.mean(imgcpy_hsv, mask=mask2)
     intensity  =abs(mean1[1] - mean2[1])
     
-    print("Rect :", rect)
-    print("Mean 1 :", mean1)
-    print("Mean 2 :", mean2)
+    # print("Rect :", rect)
+    # print("Mean 1 :", mean1)
+    # print("Mean 2 :", mean2)
     print("Intensity : ", intensity )
     # plt.title (f"Intensity : {intensity:.3f}" )
     # plt.imshow(imgcpy)

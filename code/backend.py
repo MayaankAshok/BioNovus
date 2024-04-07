@@ -121,7 +121,6 @@ def display_u():
 
     return jsonify(users), 202
 
-
 @app.route('/display_U_except_curr', methods=['GET'])
 def display_u_except_curr():
     """
@@ -225,37 +224,40 @@ def insert_sample():
         file.write(base64.b64decode( data["s_data"]))
     # print("Created file")
     intensity = get_intensity('cache/pic.jpg')
+
     print (intensity)
-    if not s_id or not s_type:
+
+    if not s_id or not s_type or not intensity:
         return jsonify({
             'error': 'All fields are required'
         }), 401
+
+    global CURR_USER
  
     existing_samples = mongo.db.samples.find_one({
         '_id': s_id,
-        'type': s_type
+        'type': s_type,
+        'u_id': CURR_USER,
+        'intensity':intensity
     })
 
+    
     if existing_samples:
         return jsonify({
             'error': 'Sample already exists'
         }), 402
 
-    global CURR_USER
-
     s_type = s_type.lower()
     mongo.db.samples.insert_one({
         '_id': s_id,
         'type': s_type,
-        'u_id': CURR_USER
+        'u_id': CURR_USER,
+        'intensity':intensity
     })
 
     return jsonify({
-        'message': "User registered succesfully"
+        'message': "Sample inserted successfully"
     }), 200
-
-    # print(user_name)
-    # print(password)
 
 @app.route('/edit_sample', methods=['POST'])
 def edit_sample():
@@ -361,6 +363,7 @@ def display_r():
     """
 
     all_samples_data=mongo.db.samples.find()
+    print(all_samples_data)
     samples = []
     global CURR_USER
     global CURR_ROLE
@@ -369,13 +372,15 @@ def display_r():
             if sample['u_id'] == CURR_USER:
                 samples.append({
                     'id': str(sample['_id']),  # Convert ObjectId to string
-                    'type': sample['type']
+                    'type': sample['type'],
+                    'intensity':sample['intensity']
                 })
     else:
         for sample in all_samples_data:
             samples.append({
                 'id': str(sample['_id']),  # Convert ObjectId to string
-                'type': sample['type']
+                'type': sample['type'],
+                'intensity':sample['intensity']
             })
 
     return jsonify(samples), 202
