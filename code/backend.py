@@ -159,7 +159,7 @@ def delete_u(user_id):
 
     try:
         result_users = mongo.db.users.delete_one({'_id': user_id})
-        result_samples = mongo.db.samples.delete_many({})
+        result_samples = mongo.db.samples.delete_many({'u_id':user_id})
         if result_users.deleted_count > 0:
             return jsonify({'message': 'User deleted successfully'})
         return jsonify({'message': 'User not found'})
@@ -201,8 +201,17 @@ def delete_s(sample_id):
     """
 
     try:
-        result = mongo.db.samples.delete_one({'_id': sample_id})
-        if result.deleted_count > 0:
+
+        all_samples_data=mongo.db.samples.find()
+        result_sample = mongo.db.samples.delete_one({'_id': sample_id})
+        u_id=result_sample['_id']
+        print(u_id)
+        count_samples_with_u_id=0
+        for sample in all_samples_data:
+            if sample['u_id']==u_id:
+                count_samples_with_u_id += 1
+        print(count_samples_with_u_id)
+        if result_sample.deleted_count > 0:
             return jsonify({'message': 'Sample deleted successfully'})
         return jsonify({'message': 'Sample not found'})
     except Exception as e:
