@@ -22,14 +22,12 @@ function Display_R() {
     getResults();
   }, []);
 
-  const MyDocument = ({ items }) => (
+  const MyDocument = ({ item }) => (
     <Document>
       <Page style={styles.page}>
-        {items.map((item) => (
-          <Text key={item.id}>
-            {item.id}: {item.type}, {item.intensity}
-          </Text>
-        ))}
+        <Text>
+          {item.id}: {item.type}, {item.intensity}
+        </Text>
       </Page>
     </Document>
   );
@@ -45,8 +43,7 @@ function Display_R() {
   return (
     <div style={{ height: "80vh" }}>
       <h1>All Results</h1>
-      {items.map((item) => (
-        <table style={{ width: "100%" }}>
+      <table style={{ width: "100%" }}>
         <thead>
           <tr>
             <th>ID</th>
@@ -63,10 +60,7 @@ function Display_R() {
               <td style={{ fontSize: "18px" }}>{item.intensity}</td>
               <td>
                 <button className="button1">
-                  <PDFDownloadLink
-                    document={<MyDocument items={items} />}
-                    fileName="results.pdf"
-                  >
+                  <PDFDownloadLink document={<MyDocument item={item} />} fileName={`${item.id}.pdf`}>
                     {({ loading }) => (loading ? "Loading document..." : "Print")}
                   </PDFDownloadLink>
                 </button>
@@ -75,8 +69,6 @@ function Display_R() {
           ))}
         </tbody>
       </table>
-      
-      ))}
     </div>
   );
 }

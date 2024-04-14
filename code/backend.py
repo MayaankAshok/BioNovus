@@ -229,11 +229,8 @@ def insert_sample():
     data = request.json
     s_id = data.get('s_id')
     s_type = data.get('s_type')
-    # print(data['s_data'])
     with open('cache/pic.jpg', 'wb') as file:
-        # print(data["s_data"][:400])
         file.write(base64.b64decode( data["s_data"]))
-    # print("Created file")
     intensity = get_intensity('cache/pic.jpg')
 
     print (intensity)
