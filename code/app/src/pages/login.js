@@ -31,7 +31,7 @@ function Login() {
 
       navigate('/home');
     } catch (error) {
-      alert('Logging Error:' + error);
+      alert('Logging Error: ' + error.response.data.error);
     }
   };
 

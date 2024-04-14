@@ -50,7 +50,7 @@ function Signup() {
       console.log(response.data);
       navigate('/login');
     } catch (error) {
-      alert('Signup error:' + error);
+      alert('Logging Error: ' + error.response.data.error);
     }
   };
 

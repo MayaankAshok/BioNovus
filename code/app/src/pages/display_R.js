@@ -14,7 +14,7 @@ function Display_R() {
       const sortedResults = response.data.sort((a, b) => a.id.localeCompare(b.id));
       setResults(sortedResults);
     } catch (error) {
-      console.error("Error fetching results:", error);
+      alert('Logging Error: ' + error.response.data.error);
     }
   };
 
@@ -46,17 +46,36 @@ function Display_R() {
     <div style={{ height: "80vh" }}>
       <h1>All Results</h1>
       {items.map((item) => (
-        <li className="list" key={item.id} style={{ fontSize: "18px" }}>
-          {item.id}: {item.type}, {item.intensity}
-          <button className="button1">
-            <PDFDownloadLink
-              document={<MyDocument items={items} />}
-              fileName="results.pdf"
-            >
-              {({ loading }) => (loading ? "Loading document..." : "Print")}
-            </PDFDownloadLink>
-          </button>
-        </li>
+        <table style={{ width: "100%" }}>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Intensity</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((item) => (
+            <tr key={item.id}>
+              <td style={{ fontSize: "18px" }}>{item.id}</td>
+              <td style={{ fontSize: "18px" }}>{item.type}</td>
+              <td style={{ fontSize: "18px" }}>{item.intensity}</td>
+              <td>
+                <button className="button1">
+                  <PDFDownloadLink
+                    document={<MyDocument items={items} />}
+                    fileName="results.pdf"
+                  >
+                    {({ loading }) => (loading ? "Loading document..." : "Print")}
+                  </PDFDownloadLink>
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      
       ))}
     </div>
   );

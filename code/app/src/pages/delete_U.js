@@ -26,13 +26,16 @@ function Delete_U() {
     getUsers(); // Trigger the GET request when the component mounts
   }, []);
   const deleteUser = async (id) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this user?');
+    if(confirmDelete){
     try {
       await axios.delete(`http://localhost:5000/delete_U/${id}`);
       // After deletion, fetch the updated user list
       getUsers();
     } catch (error) {
-      alert('Error deleting user:' + error);
+      alert('Logging Error: ' + error.response.data.error);
     }
+  }
   };
 
   // const handleSubmit = (key) => {

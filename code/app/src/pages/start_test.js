@@ -49,7 +49,7 @@ function Start_Test() {
       console.log(response.data);
       navigate('/home');
     } catch (error) {
-      alert('Test Start Error:' + error);
+      alert('Logging Error: ' + error.response.data.error);
     }
   };
 

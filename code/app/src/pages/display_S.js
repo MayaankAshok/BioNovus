@@ -14,7 +14,7 @@ function Display_S() {
       console.log(sortedSamples);
       setSamples(sortedSamples);
     } catch (error) {
-      alert('Error fetching samples:' + error);
+      alert('Logging Error: ' + error.response.data.error);
     }
   };
 

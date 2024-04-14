@@ -25,14 +25,18 @@ function Delete_S() {
     getSamples(); // Trigger the GET request when the component mounts
   }, []);
   const deleteSample = async (id) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this sample?');
+    if(confirmDelete){
     try {
       await axios.delete(`http://localhost:5000/delete_S/${id}`);
       // After deletion, fetch the updated sample list
       getSamples();
     } catch (error) {
-      console.error('Error deleting sample:', error);
+      alert('Logging Error: ' + error.response.data.error);
     }
+  }
   };
+
 
   return (
     <div
