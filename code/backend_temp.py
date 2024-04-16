@@ -11,7 +11,7 @@ mongo = PyMongo(app)
 
 @app.route('/store_temp', methods=['POST'])
 def store_db():
-    data = request.json()
+    data = request.json
     timestamp = data.get('timestamp')
     temp =  data.get('temp')
     # temp = 16
@@ -46,9 +46,9 @@ def generate_graphs():
 def clear_data():
     mongo.db.temp.delete_many({})
 
-def main():
-    store_db()
-    generate_graphs()
+# def main():
+#     store_db()
+#     generate_graphs()
 
 if __name__ == '__main__':
-    main()
+    app.run(debug=True)
