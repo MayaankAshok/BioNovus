@@ -11,7 +11,7 @@ mongo = PyMongo(app)
 
 @app.route('/store_temp', methods=['POST'])
 def store_db():
-    data = request.json
+    data = request.json()
     timestamp = data.get('timestamp')
     temp =  data.get('temp')
     # temp = 16
