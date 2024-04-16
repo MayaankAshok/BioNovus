@@ -1,6 +1,7 @@
 from flask_pymongo import PyMongo
 from flask_cors import CORS
-from flask import Flask
+from flask import Flask, request, jsonify
+
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 app = Flask(__name__)
@@ -8,15 +9,21 @@ CORS(app)
 app.config["MONGO_URI"] = "mongodb+srv://maitreyapchitale:3jrPBDsOFqwvyuZr@bionovus.vklbulv.mongodb.net/temp_sensor"
 mongo = PyMongo(app)
 
-@app.route('/store_db', methods=['POST'])
+@app.route('/store_temp', methods=['POST'])
 def store_db():
-    temp = 16
-    timestamp = "10:56AM"
+    data = request.json
+    timestamp = data.get('timestamp')
+    temp =  data.get('temp')
+    # temp = 16
+    # timestamp = "10:56AM"
+    print("Recorded temperature :", temp)
     mongo.db.temp.insert_one({
         "_id": timestamp,
         "temp": temp
     })
-    return
+    return jsonify({
+        'message': "Temperature logged"
+    }), 200
 
 @app.route('/gen_graphs')
 def generate_graphs():

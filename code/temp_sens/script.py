@@ -1,7 +1,7 @@
 import os
 import glob
 import time
- 
+import requests
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
  
@@ -24,9 +24,12 @@ def read_temp():
     if equals_pos != -1:
         temp_string = lines[1][equals_pos+2:]
         temp_c = float(temp_string) / 1000.0
-        temp_f = temp_c * 9.0 / 5.0 + 32.0
-        return temp_c, temp_f
-	
+        return temp_c
+    
 while True:
-	print(read_temp())	
-	time.sleep(10)
+    r = requests.post('http://localhost:5000/store_temp', json={"timestamp": str(time.time()), "temp": read_temp()[0]})
+    if r.status_code != 200:
+        print ("Error sending")
+        print(r.status_code, r.reason)
+        break
+    time.sleep(10)
