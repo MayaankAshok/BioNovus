@@ -27,7 +27,7 @@ def read_temp():
         return temp_c
     
 while True:
-    r = requests.post('http://localhost:5000/store_temp', json={"timestamp": str(time.time()), "temp": read_temp()[0]})
+    r = requests.post('http://localhost:5000/store_temp', json={"timestamp": str(time.time()), "temp": read_temp()})
     if r.status_code != 200:
         print ("Error sending")
         print(r.status_code, r.reason)
