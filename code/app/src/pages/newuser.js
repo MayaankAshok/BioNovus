@@ -39,7 +39,7 @@ function NewUser() {
       console.log(response.data);
       navigate('/setting');
     } catch (error) {
-      alert('Logging Error:' + error);
+      alert('Logging Error: ' + error.response.data.error);
     }
   };
   return (

@@ -121,7 +121,6 @@ def display_u():
 
     return jsonify(users), 202
 
-
 @app.route('/display_U_except_curr', methods=['GET'])
 def display_u_except_curr():
     """
@@ -159,8 +158,9 @@ def delete_u(user_id):
     """
 
     try:
-        result = mongo.db.users.delete_one({'_id': user_id})
-        if result.deleted_count > 0:
+        result_users = mongo.db.users.delete_one({'_id': user_id})
+        result_samples = mongo.db.samples.delete_many({'u_id':user_id})
+        if result_users.deleted_count > 0:
             return jsonify({'message': 'User deleted successfully'})
         return jsonify({'message': 'User not found'})
     except Exception as e:
@@ -182,7 +182,8 @@ def display_s():
         samples.append({
             'id': str(sample['_id']),  # Convert ObjectId to string
             'type': sample['type'],
-            'u_name': sample['u_id']
+            'u_name': sample['u_id'],
+            'intensity':sample['intensity']
         })
 
     return jsonify(samples), 202
@@ -200,8 +201,17 @@ def delete_s(sample_id):
     """
 
     try:
-        result = mongo.db.samples.delete_one({'_id': sample_id})
-        if result.deleted_count > 0:
+
+        all_samples_data=mongo.db.samples.find()
+        result_sample = mongo.db.samples.delete_one({'_id': sample_id})
+        u_id=result_sample['_id']
+        print(u_id)
+        count_samples_with_u_id=0
+        for sample in all_samples_data:
+            if sample['u_id']==u_id:
+                count_samples_with_u_id += 1
+        print(count_samples_with_u_id)
+        if result_sample.deleted_count > 0:
             return jsonify({'message': 'Sample deleted successfully'})
         return jsonify({'message': 'Sample not found'})
     except Exception as e:
@@ -219,21 +229,24 @@ def insert_sample():
     data = request.json
     s_id = data.get('s_id')
     s_type = data.get('s_type')
-    # print(data['s_data'])
     with open('cache/pic.jpg', 'wb') as file:
-        # print(data["s_data"][:400])
         file.write(base64.b64decode( data["s_data"]))
-    # print("Created file")
     intensity = get_intensity('cache/pic.jpg')
+
     print (intensity)
-    if not s_id or not s_type:
+
+    if not s_id or not s_type or not intensity:
         return jsonify({
             'error': 'All fields are required'
         }), 401
+
+    global CURR_USER
  
     existing_samples = mongo.db.samples.find_one({
         '_id': s_id,
-        'type': s_type
+        'type': s_type,
+        'u_id': CURR_USER,
+        'intensity':intensity
     })
 
     if existing_samples:
@@ -241,21 +254,17 @@ def insert_sample():
             'error': 'Sample already exists'
         }), 402
 
-    global CURR_USER
-
     s_type = s_type.lower()
     mongo.db.samples.insert_one({
         '_id': s_id,
         'type': s_type,
-        'u_id': CURR_USER
+        'u_id': CURR_USER,
+        'intensity':intensity
     })
 
     return jsonify({
-        'message': "User registered succesfully"
+        'message': "Sample inserted successfully"
     }), 200
-
-    # print(user_name)
-    # print(password)
 
 @app.route('/edit_sample', methods=['POST'])
 def edit_sample():
@@ -361,6 +370,7 @@ def display_r():
     """
 
     all_samples_data=mongo.db.samples.find()
+
     samples = []
     global CURR_USER
     global CURR_ROLE
@@ -369,13 +379,15 @@ def display_r():
             if sample['u_id'] == CURR_USER:
                 samples.append({
                     'id': str(sample['_id']),  # Convert ObjectId to string
-                    'type': sample['type']
+                    'type': sample['type'],
+                    'intensity':sample['intensity']
                 })
     else:
         for sample in all_samples_data:
             samples.append({
                 'id': str(sample['_id']),  # Convert ObjectId to string
-                'type': sample['type']
+                'type': sample['type'],
+                'intensity':sample['intensity']
             })
 
     return jsonify(samples), 202
