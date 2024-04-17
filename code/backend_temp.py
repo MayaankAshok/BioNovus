@@ -10,8 +10,8 @@ mongo = PyMongo(app)
 
 @app.route('/store_db', methods=['POST'])
 def store_db():
-    temp = 16
-    timestamp = "10:56AM"
+    temp = 32
+    timestamp = "11:10AM"
     mongo.db.temp.insert_one({
         "_id": timestamp,
         "temp": temp
@@ -27,6 +27,9 @@ def generate_graphs():
     fig, ax = plt.subplots(figsize=(8, 6))
     ax.plot(timestamps, temperatures)
     # Rotate the x-axis labels for better visibility
+    timestamps_2 = [d['_id'] for d in data]
+    temperatures_2 = [d['temp'] + 2 for d in data]
+    ax.plot(timestamps_2, temperatures_2, color='green')
     plt.setp(ax.get_xticklabels(), rotation=30, ha='right')
     ax.set_xlabel('Time')
     ax.set_ylabel('Temperature')
@@ -40,8 +43,9 @@ def clear_data():
     mongo.db.temp.delete_many({})
 
 def main():
-    store_db()
+    # store_db()
     generate_graphs()
+    # clear_data()
 
 if __name__ == '__main__':
     main()
