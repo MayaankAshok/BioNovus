@@ -3,6 +3,7 @@ import React from "react";
 import { Nav, NavLink, NavMenu } from "./NavElements";
 import Time from "./currtime";
 import NavItem  from "./NavItem";
+import Clear_Data from "../../pages/clear_data";
 function Navbar({ }) {
   const navigate = useNavigate()
   return (
@@ -13,10 +14,10 @@ function Navbar({ }) {
           {/* {console.log("flag", flag , window.username )} */}
           {(<NavLink to="/home"><NavItem name="Home" /></NavLink>) }
           {(<NavLink to="/analysis"><NavItem name="Analysis" /></NavLink>)}
-          {/* {window.username === 0 && <NavLink to="/signup"><NavItem name = "Home"></NavItem></NavLink>}
-          {window.username !== 0 && <NavLink to="/setting"><NavItem name = "Settings"></NavItem></NavLink>} */}
-          {/* <NavLink to="/edit_all">edit</NavLink> */}
-          {/* {window.username !== 0 && <button style={{backgroundColor: "transparent",border:"None"}} onClick={logout}><NavItem name="Logout"></NavItem>  </button>} */}
+          
+          {(<NavLink to="/clear_data"><NavItem name="Clear Data" /></NavLink>)}
+          {(<NavLink to="/set_record"><NavItem name="Set Record" /></NavLink>)}
+      
         </NavMenu>
       </Nav>
     </>

@@ -30,6 +30,7 @@ def store_db():
 def min_max_temp():
     data = list(mongo.db.temp.find())
     min_temp = max_temp = data[0]['temp']
+    time_min=time_max=data[0]['_id']
 
     for item in data:
         temperature = item['temp']
@@ -40,8 +41,8 @@ def min_max_temp():
             max_temp = temperature
             time_max=item['_id']
 
-    print(f"Minimum Temperature: {min_temp} at {time_min}")
-    print(f"Maximum Temperature: {max_temp} at {time_max}")
+    # print(f"Minimum Temperature: {min_temp} at {time_min}")
+    # print(f"Maximum Temperature: {max_temp} at {time_max}")
     return min_temp,time_min,max_temp,time_max
 
 @app.route('/analysis', methods=['GET'])
@@ -71,7 +72,7 @@ def generate_graphs():
     # Convert the image to base64 string
     image_base64 = base64.b64encode(image_buffer.getvalue()).decode('utf-8')
     min_temp, time_min, max_temp, time_max = min_max_temp()
-    print(min_temp)
+    # print(min_temp)
     return jsonify({
         'min_temp': min_temp,
         'time_min': time_min,
@@ -83,7 +84,19 @@ def generate_graphs():
 
 @app.route('/clear_data', methods=['POST'])
 def clear_data():
-    mongo.db.temp.delete_many({})
+    # mongo.db.temp.delete_many({})
+    print("hello")
+    return jsonify({
+        'message': "All data deleted"
+    }), 200
+
+@app.route('/set_record', methods=['POST'])
+def set_record():
+    data=request.json
+    # print(data)
+    return jsonify({
+        'message': "Record set"
+    }), 200
 
 # def main():
 #     # store_db()
