@@ -6,6 +6,7 @@ import base64
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from datetime import datetime
+import pandas as pd
 
 app = Flask(__name__)
 CORS(app)
@@ -84,7 +85,7 @@ def generate_graphs():
 
     plt.tight_layout()
     # plt.show()
-
+    plt.savefig('temperature_plot.png', format='png')
     # Save the plot as a PNG image
     image_buffer = BytesIO()
     plt.savefig(image_buffer, format='png')
@@ -125,8 +126,13 @@ def set_record():
 
 @app.route('/download_report', methods=['POST'])
 def download_report():
-    
-
+    data = list(mongo.db.temp.find())
+    timestamps = [d['_id'] for d in data]
+    temperatures = [d['temp'] for d in data]
+    df = pd.DataFrame({'Timestamp': timestamps, 'Temperature': temperatures})
+    # Saving to Excel file
+    excel_file_path = 'temperature_data.xlsx'
+    df.to_excel(excel_file_path, index=False)
 # def main():
 #     # store_db()
 #     # generate_graphs()
