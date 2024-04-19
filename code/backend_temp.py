@@ -45,10 +45,10 @@ def min_max_temp():
             max_temp = temperature
             time_max=item['_id']
 
-    ts_min = float(min_temp)
+    ts_min = float(time_min)
     time_min = datetime.utcfromtimestamp(ts_min).strftime('%Y-%m-%d %H:%M:%S')
 
-    ts_max = float(max_temp)
+    ts_max = float(time_max)
     time_max = datetime.utcfromtimestamp(ts_max).strftime('%Y-%m-%d %H:%M:%S')
 
     print(f"Minimum Temperature: {min_temp} at {time_min}")
@@ -76,6 +76,12 @@ def generate_graphs():
     ax.set_xlabel('Time')
     ax.set_ylabel('Temperature')
     ax.set_title('Temperature over Time')
+
+
+    max_xticks = 10
+    xloc = plt.MaxNLocator(max_xticks)
+    ax.xaxis.set_major_locator(xloc)
+
     plt.tight_layout()
     # plt.show()
 
@@ -100,7 +106,7 @@ def generate_graphs():
 
 @app.route('/clear_data', methods=['POST'])
 def clear_data():
-    # mongo.db.temp.delete_many({})
+    mongo.db.temp.delete_many({})
     print("hello")
     return jsonify({
         'message': "All data deleted"
@@ -109,10 +115,17 @@ def clear_data():
 @app.route('/set_record', methods=['POST'])
 def set_record():
     data=request.json
-    # print(data)
+    time_interval = data['time_interval']
+    print(time_interval)
+    # set any negative or zero to be = off
+    # any positive will give appropriate interval
     return jsonify({
         'message': "Record set"
     }), 200
+
+@app.route('/download_report', methods=['POST'])
+def download_report():
+    
 
 # def main():
 #     # store_db()

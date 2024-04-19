@@ -6,7 +6,7 @@ function Analysis() {
 
   const getResults = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/analysis");
+      const response = await axios.get("http://192.168.2.69:5000/analysis"); // IP for Raspberry Pi on Maitreya's device
       console.log(response.data);
       setResponse(response.data); // Set the response state with the data
     } catch (error) {
