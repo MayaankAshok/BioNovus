@@ -16,6 +16,7 @@ def read_temp_raw():
     return lines
  
 def read_temp():
+    # return 24
     lines = read_temp_raw()
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)
@@ -25,11 +26,21 @@ def read_temp():
         temp_string = lines[1][equals_pos+2:]
         temp_c = float(temp_string) / 1000.0
         return temp_c
-    
+
+interval = 10
 while True:
-    r = requests.post('http://localhost:5000/store_temp', json={"timestamp": str(time.time()), "temp": read_temp()})
+    if interval != -1:
+        r = requests.post('http://localhost:5000/store_temp', json={"timestamp": str(time.time()), "temp": read_temp()})
+    else:
+        r = requests.post('http://localhost:5000/store_temp', json={"timestamp": str(time.time()), "temp": -1000})
+
+    print("Reading Temp")
     if r.status_code != 200:
         print ("Error sending")
         print(r.status_code, r.reason)
         break
-    time.sleep(10)
+    interval = r.json.get("interval")
+    if interval == -1:
+        time.sleep(10)
+    else:
+        time.sleep(interval)

@@ -9,6 +9,8 @@ CORS(app)
 app.config["MONGO_URI"] = "mongodb+srv://maitreyapchitale:3jrPBDsOFqwvyuZr@bionovus.vklbulv.mongodb.net/temp_sensor"
 mongo = PyMongo(app)
 
+interval = 10
+
 @app.route('/store_temp', methods=['POST'])
 def store_db():
     data = request.json
@@ -16,14 +18,28 @@ def store_db():
     temp =  data.get('temp')
     # temp = 16
     # timestamp = "10:56AM"
-    print("Recorded temperature :", temp)
-    mongo.db.temp.insert_one({
-        "_id": timestamp,
-        "temp": temp
-    })
+    if temp == -1000:
+        print("Skipped recording")
+    else:
+        print("Recorded temperature :", temp)
+        mongo.db.temp.insert_one({
+            "_id": timestamp,
+            "temp": temp
+        })
     return jsonify({
-        'message': "Temperature logged"
+        'message': "Temperature logged",
+        'interval' : interval
     }), 200
+
+@app.route('/set_interval', methods=['POST'])
+def store_db():
+    global interval
+    data = request.json
+    interval = data.get('interval')
+    return jsonify({
+        'message': "Set Interval",
+    }), 200
+
 
 @app.route('/gen_graphs')
 def generate_graphs():
