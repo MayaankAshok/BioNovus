@@ -17,6 +17,7 @@ function Navbar({ }) {
           
           {(<NavLink to="/clear_data"><NavItem name="Clear Data" /></NavLink>)}
           {(<NavLink to="/set_record"><NavItem name="Set Record" /></NavLink>)}
+          {(<NavLink to="/download_result"><NavItem name="Download Results" /></NavLink>)}
       
         </NavMenu>
       </Nav>
