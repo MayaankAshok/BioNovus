@@ -5,6 +5,7 @@ import "./button.css";
 import { Nav } from "../components/NavBar/NavElements";
 import NavItem from "../components/NavBar/NavItem";
 
+
 function Display_R() {
   const [items, setResults] = useState([]);
 
