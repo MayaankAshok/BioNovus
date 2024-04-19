@@ -5,6 +5,7 @@ from io import BytesIO
 import base64
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -29,16 +30,26 @@ def store_db():
 
 def min_max_temp():
     data = list(mongo.db.temp.find())
-    min_temp = max_temp = data[0]['temp']
+    
+    min_temp = 10000000000
+    max_temp = 0
 
     for item in data:
+        print(item)
         temperature = item['temp']
+        print(temperature)
         if temperature < min_temp:
             min_temp = temperature
             time_min=item['_id']
         if temperature > max_temp:
             max_temp = temperature
             time_max=item['_id']
+
+    ts_min = float(min_temp)
+    time_min = datetime.utcfromtimestamp(ts_min).strftime('%Y-%m-%d %H:%M:%S')
+
+    ts_max = float(max_temp)
+    time_max = datetime.utcfromtimestamp(ts_max).strftime('%Y-%m-%d %H:%M:%S')
 
     print(f"Minimum Temperature: {min_temp} at {time_min}")
     print(f"Maximum Temperature: {max_temp} at {time_max}")
@@ -48,13 +59,19 @@ def min_max_temp():
 def generate_graphs():
     data = list(mongo.db.temp.find())
     timestamps = [d['_id'] for d in data]
+    formatted_timestamps = []
+    for ts in timestamps:
+        ts_int = float(ts)
+        ts_final = datetime.utcfromtimestamp(ts_int).strftime('%Y-%m-%d %H:%M:%S')
+        formatted_timestamps.append(ts_final)
+    timestamps = formatted_timestamps
     temperatures = [d['temp'] for d in data]
     fig, ax = plt.subplots(figsize=(8, 6))
     ax.plot(timestamps, temperatures)
     # Rotate the x-axis labels for better visibility
-    timestamps_2 = [d['_id'] for d in data]
-    temperatures_2 = [d['temp'] + 2 for d in data]
-    ax.plot(timestamps_2, temperatures_2, color='green')
+    # timestamps_2 = [d['_id'] for d in data]
+    # temperatures_2 = [d['temp'] + 2 for d in data]
+    # ax.plot(timestamps_2, temperatures_2, color='green')
     plt.setp(ax.get_xticklabels(), rotation=30, ha='right')
     ax.set_xlabel('Time')
     ax.set_ylabel('Temperature')
