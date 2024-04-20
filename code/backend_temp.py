@@ -15,17 +15,19 @@ CORS(app)
 app.config["MONGO_URI"] = "mongodb+srv://maitreyapchitale:3jrPBDsOFqwvyuZr@bionovus.vklbulv.mongodb.net/temp_sensor"
 mongo = PyMongo(app)
 
+# default interval between temperature measurements
+# interval = -1 means dont read from the temperature sensor
 interval = 10
 
+# called by the temperature sensor to post the measurements 
 @app.route('/store_temp', methods=['POST'])
 def store_db():
     global interval
     data = request.json
     timestamp = data.get('timestamp')
     temp =  data.get('temp')
-    # temp = 16
-    # timestamp = "10:56AM"
-    if temp == -1000:
+
+    if temp == -1000: # only returned if the interval is set to -1. (ie. sensor not being read from)
         print("Skipped recording")
     else:
         print("Recorded temperature :", temp)
@@ -33,11 +35,15 @@ def store_db():
             "_id": timestamp,
             "temp": temp
         })
+    
+    # return the interval to specify the gap to the next measurement 
     return jsonify({
         'message': "Temperature logged",
         'interval' : interval
     }), 200
 
+# UI can set the measurement interval
+# interval < 0  means disable the sensor
 @app.route('/set_interval', methods=['POST'])
 def set_interval():
     global interval
@@ -46,6 +52,7 @@ def set_interval():
     try : 
         
         interval = float(interval_)
+        if interval < 0 : interval = -1
         print("Set interval :" , interval)
     except: 
         print("Cant convert interval into float ")
@@ -54,6 +61,7 @@ def set_interval():
         'message': "Set Interval",
     }), 200
 
+# Read from all stored temperature readings and get min-max along with timestamp
 def min_max_temp():
     data = list(mongo.db.temp.find())
     
@@ -71,6 +79,7 @@ def min_max_temp():
             max_temp = temperature
             time_max=item['_id']
 
+    # Convert unix timestamp to readable format
     ts_min = float(time_min)
     time_min = datetime.utcfromtimestamp(ts_min).strftime('%Y-%m-%d %H:%M:%S')
 
@@ -81,6 +90,7 @@ def min_max_temp():
     print(f"Maximum Temperature: {max_temp} at {time_max}")
     return min_temp,time_min,max_temp,time_max
 
+# return a graph of the stored temperature measurements and min-max temperatures
 @app.route('/analysis', methods=['GET'])
 def generate_graphs():
     global TEMP_LIMIT
@@ -88,6 +98,8 @@ def generate_graphs():
     data = list(mongo.db.temp.find())
     timestamps = [d['_id'] for d in data]
     formatted_timestamps = []
+
+    # create a matplotlib line graph of the temperature variations
     for ts in timestamps:
         ts_int = float(ts)
         ts_final = datetime.utcfromtimestamp(ts_int).strftime('%Y-%m-%d %H:%M:%S')
@@ -98,24 +110,23 @@ def generate_graphs():
     ax.plot(timestamps, temperatures)
     plot_temp = TEMP_LIMIT
     ax.axhline(y=plot_temp, color='r', linestyle='--', label=f'Temp Limit: {plot_temp}')
+
     # Rotate the x-axis labels for better visibility
-    # timestamps_2 = [d['_id'] for d in data]
-    # temperatures_2 = [d['temp'] + 2 for d in data]
-    # ax.plot(timestamps_2, temperatures_2, color='green')
     plt.setp(ax.get_xticklabels(), rotation=30, ha='right')
     ax.set_xlabel('Time')
     ax.set_ylabel('Temperature')
     ax.set_title('Temperature over Time')
     print(TEMP_LIMIT)
 
+    # Set only 10 date labels along x axis to prevent clutter 
     max_xticks = 10
     xloc = plt.MaxNLocator(max_xticks)
     ax.xaxis.set_major_locator(xloc)
 
     plt.tight_layout()
-    # plt.show()
-    plt.savefig('temperature_plot.png', format='png')
     # Save the plot as a PNG image
+    plt.savefig('temperature_plot.png', format='png')
+    
     image_buffer = BytesIO()
     plt.savefig(image_buffer, format='png')
     image_buffer.seek(0)
@@ -142,6 +153,7 @@ def clear_data():
         'message': "All data deleted"
     }), 200
 
+
 @app.route('/set_record', methods=['POST'])
 def set_record():
     data=request.json
@@ -154,6 +166,7 @@ def set_record():
         'message': "Record set"
     }), 200
 
+# convert all the database readings into a excel file and save it.
 @app.route('/download_report', methods=['POST'])
 def download_report():
     data = list(mongo.db.temp.find())
@@ -164,27 +177,16 @@ def download_report():
         ts_final = datetime.utcfromtimestamp(ts_int).strftime('%Y-%m-%d %H:%M:%S')
         formatted_timestamps.append(ts_final)
     timestamps = formatted_timestamps
+    
+    # Convert to pandas Dataframe
     temperatures = [d['temp'] for d in data]
     df = pd.DataFrame({'Timestamp': timestamps, 'Temperature': temperatures})
+    
     # Saving to Excel file
     excel_file_path = 'temperature_data.xlsx'
     df.to_excel(excel_file_path, index=False)
     return jsonify({
         'message': "Report downloaded as excel file"
-    }), 200
-# def main():
-#     # store_db()
-#     # generate_graphs()
-#     # min_max_temp()
-@app.route('/set_limit', methods=['POST'])
-def set_limit():
-    global TEMP_LIMIT
-    data=request.json
-    temp_limit = data['temp_limit']
-    print(temp_limit)
-    TEMP_LIMIT = temp_limit
-    return jsonify({
-        'message': "Limit set succesfully"
     }), 200
 
 if __name__ == '__main__':
