@@ -1,5 +1,5 @@
 from flask_pymongo import PyMongo
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask import Flask, request, jsonify
 from io import BytesIO
 import base64
@@ -21,6 +21,7 @@ interval = 10
 
 # called by the temperature sensor to post the measurements 
 @app.route('/store_temp', methods=['POST'])
+@cross_origin
 def store_db():
     global interval
     data = request.json
@@ -187,6 +188,17 @@ def download_report():
     df.to_excel(excel_file_path, index=False)
     return jsonify({
         'message': "Report downloaded as excel file"
+    }), 200
+
+@app.route('/set_limit', methods=['POST'])
+def set_limit():
+    global TEMP_LIMIT
+    data=request.json
+    temp_limit = data['temp_limit']
+    print(temp_limit)
+    TEMP_LIMIT = temp_limit
+    return jsonify({
+        'message': "Limit set succesfully"
     }), 200
 
 if __name__ == '__main__':

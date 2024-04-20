@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// IP = 192.168.2.69
 
 function Analysis() {
   const [response, setResponse] = useState(null);
 
   const getResults = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/analysis"); // IP for Raspberry Pi on Maitreya's device
-      console.log(response.data);
+      const response = await axios.get("http://"+window.PI_IP+":5000/analysis"); // IP for Raspberry Pi on Maitreya's device
+      console.log(response.data); 
       setResponse(response.data); // Set the response state with the data
     } catch (error) {
       alert('Logging Error: ' + error.response.data.error);
