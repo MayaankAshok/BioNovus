@@ -15,7 +15,7 @@ function Edit_s() {
     s_id: '',
     type: '',
   });
-  // const [passwordMatch,setPasswordMatch]=useState(true);
+  
 
   const handleChange = (e) => {
     const {name, value} = e.target;

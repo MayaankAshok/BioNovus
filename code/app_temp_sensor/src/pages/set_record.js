@@ -1,45 +1,47 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Time_Interval() {
   const navigate = useNavigate();
 
+  // State to store form data
   const [formData, setFormData] = useState({
     time_interval: ''
   });
 
-  // const [passwordMatch,setPasswordMatch]=useState(true);
-
+  // Function to handle changes in input fields
   const handleChange = (e) => {
-    const {time_interval, value} = e.target;
+    const { name, value } = e.target;
 
+    // Update the form data state with the new value
     setFormData((prevState) => ({
       ...prevState,
-      time_interval:value,
-
+      [name]: value,
     }));
   };
+
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // if (formData['repassword'] === formData['role']) {
-      //   formData['role'] = 'admin';
-      // }
-      console.log(formData);
+      // Send a POST request to set the time interval
       const response = await axios.post(
-        'http://'+window.PI_IP+':5000/set_interval',
-        {interval: formData['time_interval']},
-    );
+        'http://' + window.PI_IP + ':5000/set_interval',
+        { interval: formData.time_interval }
+      );
 
-      // window.username =  response.data.user_name
-      // window.category = response.data.category
+      // Log the response data to console
       console.log(response.data);
+
+      // Navigate to the '/home' route
       navigate('/home');
     } catch (error) {
+      // Alert the user in case of error
       alert('Logging Error: ' + error.response.data.error);
     }
   };
+
   return (
     <div
       style={{
@@ -49,20 +51,19 @@ function Time_Interval() {
         height: '80vh',
       }}
     >
+      {/* Form for setting the time interval */}
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">New Interval</label>
+        <label htmlFor="Time Interval">New Interval</label>
         <br></br>
         <input
           type="text"
-          id="Time Interval"
-          name="Time Interval"
+          id="time_interval"
+          name="time_interval"
           value={formData.time_interval}
           onChange={handleChange}
         ></input>
         <br></br>
-        <button type="submit" value="submit">
-          Set
-        </button>
+        <button type="submit">Set</button>
       </form>
     </div>
   );

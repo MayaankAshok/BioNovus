@@ -7,7 +7,6 @@ import './button.css';
 import NavItem from '../components/NavBar/NavItem';
 
 function Edit_All() {
-  // let items = ["id_1", "id_2", "id_3", "id_4"]; // This is where the items of anything to be displayed will go
   const [items, setSamples] = useState([]);
 
   const getSamples = async () => {
@@ -50,11 +49,11 @@ function Edit_All() {
           }}
         >
           {item.id}, {item.type}, {item.u_name}
-          {/* <button onClick={() => <Edit_s key={item}/>}>Edit</button> */}
+          
           <button className="button1" onClick={navig(item.id)}>
             <NavItem name="Edit"></NavItem>
           </button>
-          {/* {submittedValues[item] && <span>Edit</span>} */}
+          
         </li>
       ))}
     </div>
