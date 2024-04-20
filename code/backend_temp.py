@@ -21,7 +21,6 @@ interval = 10
 
 # called by the temperature sensor to post the measurements 
 @app.route('/store_temp', methods=['POST'])
-@cross_origin
 def store_db():
     global interval
     data = request.json
@@ -46,6 +45,7 @@ def store_db():
 # UI can set the measurement interval
 # interval < 0  means disable the sensor
 @app.route('/set_interval', methods=['POST'])
+@cross_origin()
 def set_interval():
     global interval
     data = request.json
