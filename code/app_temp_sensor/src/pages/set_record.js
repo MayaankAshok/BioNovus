@@ -29,7 +29,7 @@ function Time_Interval() {
       console.log(formData);
       const response = await axios.post(
         'http://'+window.PI_IP+':5000/set_interval',
-        {interval: formData['temp_limit']},
+        {interval: formData['time_interval']},
     );
 
       // window.username =  response.data.user_name

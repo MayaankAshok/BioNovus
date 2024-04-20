@@ -21,6 +21,7 @@ interval = 10
 
 # called by the temperature sensor to post the measurements 
 @app.route('/store_temp', methods=['POST'])
+@cross_origin()
 def store_db():
     global interval
     data = request.json
@@ -93,6 +94,7 @@ def min_max_temp():
 
 # return a graph of the stored temperature measurements and min-max temperatures
 @app.route('/analysis', methods=['GET'])
+@cross_origin()
 def generate_graphs():
     global TEMP_LIMIT
     TEMP_LIMIT = int(TEMP_LIMIT)
@@ -147,6 +149,7 @@ def generate_graphs():
 
 
 @app.route('/clear_data', methods=['POST'])
+@cross_origin()
 def clear_data():
     mongo.db.temp.delete_many({})
     print("hello")
@@ -156,6 +159,7 @@ def clear_data():
 
 
 @app.route('/set_record', methods=['POST'])
+@cross_origin()
 def set_record():
     data=request.json
     time_interval = data['time_interval']
@@ -169,6 +173,7 @@ def set_record():
 
 # convert all the database readings into a excel file and save it.
 @app.route('/download_report', methods=['POST'])
+@cross_origin()
 def download_report():
     data = list(mongo.db.temp.find())
     timestamps = [d['_id'] for d in data]
@@ -191,6 +196,7 @@ def download_report():
     }), 200
 
 @app.route('/set_limit', methods=['POST'])
+@cross_origin()
 def set_limit():
     global TEMP_LIMIT
     data=request.json

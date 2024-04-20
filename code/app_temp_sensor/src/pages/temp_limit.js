@@ -3,6 +3,9 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 
 function Time_Interval() {
+  const header = {
+    "Access-Control-Allow-Origin": "*"
+  }
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
