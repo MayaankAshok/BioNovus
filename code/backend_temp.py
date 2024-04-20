@@ -19,6 +19,7 @@ interval = 10
 
 @app.route('/store_temp', methods=['POST'])
 def store_db():
+    global interval
     data = request.json
     timestamp = data.get('timestamp')
     temp =  data.get('temp')
@@ -38,10 +39,17 @@ def store_db():
     }), 200
 
 @app.route('/set_interval', methods=['POST'])
-def store_db():
+def set_interval():
     global interval
     data = request.json
-    interval = data.get('interval')
+    interval_ = data.get('interval')
+    try : 
+        
+        interval = float(interval_)
+        print("Set interval :" , interval)
+    except: 
+        print("Cant convert interval into float ")
+        pass
     return jsonify({
         'message': "Set Interval",
     }), 200

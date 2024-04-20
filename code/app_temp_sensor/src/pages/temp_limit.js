@@ -28,8 +28,8 @@ function Time_Interval() {
       // }
       console.log(formData);
       const response = await axios.post(
-          'http://localhost:5000/set_limit',
-          formData,
+          'http://localhost:5000/set_interval',
+          {interval: formData['temp_limit']},
       );
       // window.username =  response.data.user_name
       // window.category = response.data.category

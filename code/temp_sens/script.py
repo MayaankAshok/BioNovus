@@ -10,6 +10,7 @@ device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
  
 def read_temp_raw():
+    # return 0
     f = open(device_file, 'r')
     lines = f.readlines()
     f.close()
@@ -29,6 +30,7 @@ def read_temp():
 
 interval = 10
 while True:
+    last_time = time.time()
     if interval != -1:
         r = requests.post('http://localhost:5000/store_temp', json={"timestamp": str(time.time()), "temp": read_temp()})
     else:
@@ -39,8 +41,13 @@ while True:
         print ("Error sending")
         print(r.status_code, r.reason)
         break
-    interval = r.json.get("interval")
+    interval = r.json().get("interval")
+    print("Recd: ", interval)
     if interval == -1:
-        time.sleep(10)
+
+        time.sleep(10 - time.time() + last_time)
     else:
-        time.sleep(interval)
+        next_interval= interval - time.time() + last_time
+        print(next_interval)
+        if next_interval>0:
+            time.sleep(next_interval)
