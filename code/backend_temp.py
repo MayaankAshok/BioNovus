@@ -20,7 +20,7 @@ mongo = PyMongo(app)
 interval = 10
 
 # called by the temperature sensor to post the measurements 
-@app.route('/store_temp', methods=['POST'])
+@app.route('/store_temp', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def store_db():
     global interval
@@ -93,7 +93,7 @@ def min_max_temp():
     return min_temp,time_min,max_temp,time_max
 
 # return a graph of the stored temperature measurements and min-max temperatures
-@app.route('/analysis', methods=['GET'])
+@app.route('/analysis', methods=['GET', 'OPTIONS'])
 @cross_origin()
 def generate_graphs():
     global TEMP_LIMIT
@@ -148,7 +148,7 @@ def generate_graphs():
     })
 
 
-@app.route('/clear_data', methods=['POST'])
+@app.route('/clear_data', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def clear_data():
     mongo.db.temp.delete_many({})
@@ -158,7 +158,7 @@ def clear_data():
     }), 200
 
 
-@app.route('/set_record', methods=['POST'])
+@app.route('/set_record', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def set_record():
     data=request.json
@@ -172,7 +172,7 @@ def set_record():
     }), 200
 
 # convert all the database readings into a excel file and save it.
-@app.route('/download_report', methods=['POST'])
+@app.route('/download_report', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def download_report():
     data = list(mongo.db.temp.find())
@@ -195,7 +195,7 @@ def download_report():
         'message': "Report downloaded as excel file"
     }), 200
 
-@app.route('/set_limit', methods=['POST'])
+@app.route('/set_limit', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def set_limit():
     global TEMP_LIMIT

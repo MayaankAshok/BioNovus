@@ -6,7 +6,7 @@ function Clear_Data() {
 
   const getResults = async () => {
     try {
-      await axios.post("http://localhost:5000/download_report");
+      await axios.post("http://"+window.PI_IP+":5000/download_report");
     } catch (error) {
       alert('Deleting error ' + error.response.data.error);
     }

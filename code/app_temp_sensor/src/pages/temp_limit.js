@@ -31,7 +31,7 @@ function Time_Interval() {
       // }
       console.log(formData);
       const response = await axios.post(
-        'http://localhost:5000/set_limit',
+        'http://'+window.PI_IP+':5000/set_limit',
         formData,
       );      // window.username =  response.data.user_name
       // window.category = response.data.category
