@@ -44,7 +44,7 @@ def store_db():
 
 # UI can set the measurement interval
 # interval < 0  means disable the sensor
-@app.route('/set_interval', methods=['POST'])
+@app.route('/set_interval', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def set_interval():
     global interval
@@ -203,4 +203,4 @@ def set_limit():
 
 if __name__ == '__main__':
     # main()
-    app.run(debug=True)
+    app.run(debug=True, port="5000", host="0.0.0.0")
