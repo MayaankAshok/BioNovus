@@ -11,7 +11,7 @@ import base64
 from image_proc import get_intensity
 app = Flask(__name__)
 CORS(app)
-app.config["MONGO_URI"] = "mongodb+srv://maitreyapchitale:3jrPBDsOFqwvyuZr@bionovus.vklbulv.mongodb.net/bionovus_db"
+app.config["MONGO_URI"] = "mongodb+srv://maitreyachitale:maitreyachitale@bionovusinc.uyz7d1l.mongodb.net/db"
 mongo = PyMongo(app)
 
 CURR_USER = ''
@@ -293,6 +293,7 @@ def edit_sample():
             'error': 'Sample does not exist'
         }), 402
 
+    old_intensity = existing_sample['intensity']
     existing_sample = mongo.db.samples.find_one({
         '_id': new_id
     })
@@ -304,7 +305,7 @@ def edit_sample():
 
     mongo.db.samples.delete_one({'_id': old_id})
 
-    mongo.db.samples.insert_one({'_id': new_id, 'type': new_type, 'u_id': CURR_USER})
+    mongo.db.samples.insert_one({'_id': new_id, 'type': new_type, 'u_id': CURR_USER, 'intensity':old_intensity})
 
     return jsonify({
         'message': 'Updation was succesfull'
@@ -379,14 +380,14 @@ def display_r():
                 samples.append({
                     'id': str(sample['_id']),  # Convert ObjectId to string
                     'type': sample['type'],
-                    'intensity':sample['intensity']
+                    'intensity':round(sample['intensity'],2)
                 })
     else:
         for sample in all_samples_data:
             samples.append({
                 'id': str(sample['_id']),  # Convert ObjectId to string
                 'type': sample['type'],
-                'intensity':sample['intensity']
+                'intensity':round(sample['intensity'],2)
             })
 
     return jsonify(samples), 202
