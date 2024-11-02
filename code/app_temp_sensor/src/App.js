@@ -9,7 +9,7 @@ import Set_Record from './pages/set_record'
 import Download_Result from './pages/download_result'
 import Temp_Limit from './pages/temp_limit'
 
-window.PI_IP = "192.168.2.160"
+window.PI_IP = "127.0.0.1"
 
 window.username = 0;
 window.category = 0;

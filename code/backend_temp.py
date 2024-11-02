@@ -3,16 +3,18 @@ from flask_cors import CORS, cross_origin
 from flask import Flask, request, jsonify
 from io import BytesIO
 import base64
+import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from datetime import datetime
 import pandas as pd
 
+matplotlib.use('agg')
 TEMP_LIMIT = 30
 
 app = Flask(__name__)
 CORS(app)
-app.config["MONGO_URI"] = "mongodb+srv://maitreyapchitale:3jrPBDsOFqwvyuZr@bionovus.vklbulv.mongodb.net/temp_sensor"
+app.config["MONGO_URI"] = "mongodb+srv://maitreyachitale:maitreyachitale@bionovusinc.uyz7d1l.mongodb.net/db"
 mongo = PyMongo(app)
 
 # default interval between temperature measurements
@@ -96,6 +98,7 @@ def min_max_temp():
 @app.route('/analysis', methods=['GET', 'OPTIONS'])
 @cross_origin()
 def generate_graphs():
+    print("get analysis")
     global TEMP_LIMIT
     TEMP_LIMIT = int(TEMP_LIMIT)
     data = list(mongo.db.temp.find())
@@ -122,16 +125,18 @@ def generate_graphs():
     print(TEMP_LIMIT)
 
     # Set only 10 date labels along x axis to prevent clutter 
-    max_xticks = 10
-    xloc = plt.MaxNLocator(max_xticks)
-    ax.xaxis.set_major_locator(xloc)
+    # max_xticks = 10
+    # xloc = plt.MaxNLocator(max_xticks)
+    # ax.xaxis.set_major_locator(xloc)
 
     plt.tight_layout()
     # Save the plot as a PNG image
-    plt.savefig('temperature_plot.png', format='png')
+    # plt.savefig('temperature_plot.png', format='png')
     
+    plt.draw(   )
     image_buffer = BytesIO()
-    plt.savefig(image_buffer, format='png')
+    # fig_ = plt.gcf()
+    fig.savefig(image_buffer, format='png', dpi = 100)
     image_buffer.seek(0)
     plt.close()
 
